@@ -24,6 +24,8 @@
 #define dt      0.0005
 #endif
 
+
+// changed
 //
 // particle data structure
 //
@@ -39,7 +41,7 @@ typedef struct particleNode ParticleNode;
 //My updated force function that updates both particles at the same time
 void static inline apply_forceBoth( particle_t &particle, particle_t &neighbor , double *dmin, double *davg, int *navg)
 {
-    
+
     double dx = neighbor.x - particle.x;
     double dy = neighbor.y - particle.y;
     double r2 = dx * dx + dy * dy;
@@ -52,21 +54,21 @@ void static inline apply_forceBoth( particle_t &particle, particle_t &neighbor ,
         (*davg) += sqrt(r2)/cutoff;
         (*navg) ++;
     }
-    
+
     r2 = fmax( r2, min_r*min_r );
     double r = sqrt( r2 );
-    
+
     //
     //  very simple short-range repulsive force
     //
     double coef = ( 1 - cutoff / r ) / r2 / mass;
-    
+
     double coefdx = coef * dx;
     double coefdy = coef * dy;
-    
+
     particle.ax += coefdx;
     particle.ay += coefdy;
-    
+
     neighbor.ax -= coefdx;
     neighbor.ay -= coefdy;
 }
@@ -111,7 +113,7 @@ int main( int argc, char **argv )
 {
     int navg,nabsavg=0;
     double davg,dmin, absmin=1.0, absavg=0.0;
-    
+
     if( find_option( argc, argv, "-h" ) >= 0 )
     {
         printf( "Options:\n" );
@@ -122,19 +124,19 @@ int main( int argc, char **argv )
         printf( "-no turns off all correctness checks and particle output\n");
         return 0;
     }
-    
+
     int n = read_int( argc, argv, "-n", 1000 );
-    
+
     char *savename = read_string( argc, argv, "-o", NULL );
     char *sumname = read_string( argc, argv, "-s", NULL );
-    
+
     FILE *fsave = savename ? fopen( savename, "w" ) : NULL;
     FILE *fsum = sumname ? fopen ( sumname, "a" ) : NULL;
-    
+
     particle_t *particles = (particle_t*) malloc( n * sizeof(particle_t) );
     set_size( n );
     init_particles( n, particles );
-    
+
     //Create the field grid
     double blockSize = cutoff; //Use to be cutoff
     int searchArea = 4;//33
@@ -146,14 +148,14 @@ int main( int argc, char **argv )
         grid[i] = (ParticleNode **)malloc(gridSize * sizeof(ParticleNode*));
     //Create particle node array
     ParticleNode **particleNodes = (ParticleNode**) malloc( n * sizeof(ParticleNode*) );
-    
+
     //Clear the particle grid
     for (int x = 0; x < gridSize; x++) {
         for (int y = 0; y < gridSize; y++) {
             grid[x][y] = NULL;
         }
     }
-    
+
     //Sort particles in linked lists in the grid
     for (int i = 0; i < n; i++) {
         particle_t *particle = &particles[i];
@@ -206,7 +208,7 @@ int main( int argc, char **argv )
         //Set the new particle node in the particle nodes array
         particleNodes[i] = newNode;
     }
-    
+
     //Simulate
     /* How simulation works
      Past: Loop through all the particles and loop through all particles against that particle to calculate forces, then loop through particles and move the particle.
@@ -226,7 +228,7 @@ int main( int argc, char **argv )
             move
             update particle node in grid
             clear forces
-     
+
      */
     double simulation_time = read_timer( );
     for( int step = 0; step < NSTEPS; step++ )
@@ -234,14 +236,14 @@ int main( int argc, char **argv )
         navg = 0;
         davg = 0.0;
         dmin = 1.0;
-        
+
         //Loop through all particles
         for( int i = 0; i < n; i++ )
         {
             //Get the particle Node and particle to simulate
             ParticleNode* particleNodeI = particleNodes[i];
             particle_t *particleI = particleNodeI->particle;
-            
+
             //Create a grid search area for particle collision
             int oldLocationX = particleNodeI->gridX;
             int oldLocationY = particleNodeI->gridY;
@@ -254,7 +256,7 @@ int main( int argc, char **argv )
             if (searchEndX >= gridSize) searchEndX = gridSize-1;
             int searchEndY = oldLocationY + searchArea;
             if (searchEndY >= gridSize) searchEndY = gridSize-1;
-            
+
             for (int x = searchStartX; x <= searchEndX; x++) {
                 for (int y = searchStartY; y <= searchEndY; y++) {
                     ParticleNode* startingNode = grid[x][y];
@@ -274,7 +276,7 @@ int main( int argc, char **argv )
             //Get the particle Node and particle to simulate
             ParticleNode* particleNodeI = particleNodes[i];
             particle_t *particleI = particleNodeI->particle;
-            
+
             //Move the particle
             move( particles[i] );
         }
@@ -283,7 +285,7 @@ int main( int argc, char **argv )
             //Get the particle Node and particle to simulate
             ParticleNode* particleNodeI = particleNodes[i];
             particle_t *particleI = particleNodeI->particle;
-            
+
             //Find the old and new location in the grid of the particle
             int oldLocationX = particleNodeI->gridX;
             int oldLocationY = particleNodeI->gridY;
@@ -313,7 +315,7 @@ int main( int argc, char **argv )
                 //Particle node was removed so remove references to neighbors
                 particleNodeI->next = NULL;
                 particleNodeI->prev = NULL;
-                
+
                 //Put the node back in the next grid
                 ParticleNode* node = grid[newLocationX][newLocationY];
                 if (node == NULL) { //Grid is empty so just set the node in the grid
@@ -352,7 +354,7 @@ int main( int argc, char **argv )
                     }
                 }
             }
-            
+
             //Reset the particle's forces because we just moved the particle and we don't need the forces anymore
             //particleI->ax = particleI->ay = 0;
         }
@@ -364,7 +366,7 @@ int main( int argc, char **argv )
             //Reset the particle's forces because we just moved the particle and we don't need the forces anymore
             particleI->ax = particleI->ay = 0;
         }
-        
+
         if( find_option( argc, argv, "-no" ) == -1 )
         {
             //
@@ -375,7 +377,7 @@ int main( int argc, char **argv )
                 nabsavg++;
             }
             if (dmin < absmin) absmin = dmin;
-            
+
             //
             //  save if necessary
             //
@@ -384,9 +386,9 @@ int main( int argc, char **argv )
         }
     }
     simulation_time = read_timer( ) - simulation_time;
-    
+
     printf( "n = %d, simulation time = %g seconds", n, simulation_time);
-    
+
     if( find_option( argc, argv, "-no" ) == -1 )
     {
         if (nabsavg) absavg /= nabsavg;
@@ -402,13 +404,13 @@ int main( int argc, char **argv )
         if (absavg < 0.8) printf ("\nThe average distance is below 0.8 meaning that most particles are not interacting");
     }
     printf("\n");
-    
+
     //
     // Printing summary data
     //
     if( fsum)
         fprintf(fsum,"%d %g\n",n,simulation_time);
-    
+
     //
     // Clearing space
     //
@@ -425,7 +427,6 @@ int main( int argc, char **argv )
     free( particles );
     if( fsave )
         fclose( fsave );
-    
+
     return 0;
 }
-
