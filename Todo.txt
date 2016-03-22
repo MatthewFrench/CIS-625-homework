@@ -1,0 +1,10 @@
+Open House registration due Monday if want to do.
+
+Serial GPU version uploaded to canvas. 
+
+Can use Maverick instead of Stampede. Maverick is a GPU equipped machine.
+
+Serial - 100%
+OpenMP - 100% with serial trick
+MPI - Not Done
+GPU - Not Done
