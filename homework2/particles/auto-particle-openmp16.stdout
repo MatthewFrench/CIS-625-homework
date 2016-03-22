@@ -1,0 +1,10 @@
+n = 5000,threads = 1, simulation time = 1.01226 seconds, absmin = 0.766651, absavg = 0.956902
+n = 5000,threads = 2, simulation time = 0.954236 seconds, absmin = 0.759564, absavg = 0.956994
+n = 5000,threads = 4, simulation time = 0.493599 seconds, absmin = 0.782468, absavg = 0.957174
+n = 5000,threads = 8, simulation time = 0.252344 seconds, absmin = 0.782188, absavg = 0.957197
+n = 5000,threads = 16, simulation time = 0.460581 seconds, absmin = 0.761844, absavg = 0.956548
+n = 10000,threads = 2, simulation time = 1.97572 seconds, absmin = 0.769122, absavg = 0.956767
+n = 40000,threads = 4, simulation time = 4.26405 seconds, absmin = 0.751946, absavg = 0.957021
+n = 80000,threads = 8, simulation time = 4.53117 seconds, absmin = 0.756588, absavg = 0.957029
+n = 160000,threads = 16, simulation time = 11.6588 seconds, absmin = 0.741789, absavg = 0.956997
+slurmstepd: *** JOB 6735899 CANCELLED AT 2016-03-14T23:13:36 DUE TO TIME LIMIT on c408-104 ***

@@ -1,0 +1,47 @@
+TACC: Starting up job 6735767
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 5000, simulation time = 2.37079 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6735767
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 5000, simulation time = 97.5735 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6735767
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 5000, simulation time = 49.522 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6735767
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 5000, simulation time = 24.8282 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6735767
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 5000, simulation time = 12.5273 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6735767
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 5000, simulation time = 6.37188 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6735767
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 10000, simulation time = 197.116 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6735767
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+slurmstepd: *** JOB 6735767 CANCELLED AT 2016-03-14T21:59:59 DUE TO TIME LIMIT on c401-001 ***
+[c401-001.stampede.tacc.utexas.edu:mpirun_rsh][signal_processor] Caught signal 15, killing job
