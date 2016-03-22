@@ -1,0 +1,24 @@
+Shared memory
+Pthreads or OpenMp or MPI codes
+Possible to use CUDA
+Source code is handed to start with
+
+
+Grading scheme (Serial - 20%, OpenMP or Pthreads - 30%, MPI - 30%, GPU - 20%)
+
+rusfeld send email for slack access
+
+Using a lock for threads is safe but slower
+Multiple locks can make things a bit faster
+Double buffer - everyone has their own copy and mashes everything back together at the end. Could be a trade off because everyone making their own copies
+If it's running across multiple machines we can't really share pointers
+
+Can do 4 threads each being a separate program so they can be spread across multiple machines. Being separate processes we use messages to send data back and forth. If everything is on the same process we use shared memory. MPI = Message Passing Interface.
+Most programs today are a hybrid of processes and threads. Using OpenMP and MPI.
+
+We start out with multiple threads in one program. MPI would be a decent idea. 
+
+Try to make sure all threads have the same amount of work. Load balancing.
+
+CUDA is a pain in the rear but can be a good experience
+

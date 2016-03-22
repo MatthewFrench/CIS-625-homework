@@ -1,0 +1,10 @@
+showq -u
+
+sbatch auto-stampede-serial-massive
+more auto-particle-serial.stdout
+
+sbatch auto-stampede-openmp16-massive
+more auto-particle-openmp16.stdout
+
+sbatch auto-stampede-openmp16-massive-debug
+more auto-particle-openmp16.stdout

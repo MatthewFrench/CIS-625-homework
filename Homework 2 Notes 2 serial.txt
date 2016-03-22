@@ -1,0 +1,101 @@
+Idea for optimization: Add a boolean in particle node saying if that node was processed, if it was, ignore it in calucations so we don't double down on them.
+
+
+sbatch 
+sbatch auto-stampede-serial
+showq -u
+
+
+Auto Grader:
+
+rm serial_sum.txt
+./serial -n 500 -no -s serial_sum.txt
+./serial -n 1000 -no -s serial_sum.txt
+./serial -n 2000 -no -s serial_sum.txt
+./serial -n 4000 -no -s serial_sum.txt
+./serial -n 8000 -no -s serial_sum.txt
+./autograder -v serial -s serial_sum.txt
+
+
+
+n = 500, simulation time = 0.927718 seconds
+n = 1000, simulation time = 3.6126 seconds
+n = 2000, simulation time = 14.3394 seconds
+n = 4000, simulation time = 57.0711 seconds
+n = 8000, simulation time = 237.929 seconds
+
+n = 500, simulation time = 0.231315 seconds, absmin = 0.769622, absavg = 0.957025
+n = 1000, simulation time = 0.968887 seconds, absmin = 0.778431, absavg = 0.957286
+n = 2000, simulation time = 4.03375 seconds, absmin = 0.781841, absavg = 0.957228
+n = 4000, simulation time = 17.1459 seconds, absmin = 0.772904, absavg = 0.957046
+n = 8000, simulation time = 78.1531 seconds, absmin = 0.758239, absavg = 0.957034
+
+n = 500, simulation time = 0.068421 seconds, absmin = 0.852447, absavg = 0.967895
+n = 1000, simulation time = 0.141451 seconds, absmin = 0.824070, absavg = 0.967961
+n = 2000, simulation time = 0.29339 seconds, absmin = 0.831390, absavg = 0.968318
+n = 4000, simulation time = 0.646383 seconds, absmin = 0.836881, absavg = 0.968159
+n = 8000, simulation time = 1.39398 seconds, absmin = 0.821401, absavg = 0.968164
+n = 16000, simulation time = 2.9012 seconds, absmin = 0.815818, absavg = 0.967994
+n = 32000, simulation time = 6.42353 seconds, absmin = 0.812047, absavg = 0.967977
+n = 64000, simulation time = 14.2393 seconds, absmin = 0.802213, absavg = 0.968005
+n = 128000, simulation time = 63.3086 seconds, absmin = 0.796982, absavg = 0.967973
+
+n = 500, simulation time = 0.183556 seconds, absmin = 0.853650, absavg = 0.968451
+n = 1000, simulation time = 0.145965 seconds, absmin = 0.839530, absavg = 0.968179
+n = 2000, simulation time = 0.308209 seconds, absmin = 0.834732, absavg = 0.968321
+n = 4000, simulation time = 0.668513 seconds, absmin = 0.820026, absavg = 0.967621
+n = 8000, simulation time = 1.44321 seconds, absmin = 0.827701, absavg = 0.968016
+n = 16000, simulation time = 3.01243 seconds, absmin = 0.821292, absavg = 0.967956
+n = 32000, simulation time = 6.59247 seconds, absmin = 0.814595, absavg = 0.967927
+n = 64000, simulation time = 15.2647 seconds, absmin = 0.799474, absavg = 0.968091
+n = 128000, simulation time = 43.5653 seconds, absmin = 0.806919, absavg = 0.967983
+
+Serial code is O(N^slope)
+Slope estimates are : -0.330598 1.078287 1.117047 1.110254 1.061646 1.129891 1.211308 1.512980
+Slope estimate for line fit is: 1.044969
+Serial Grade =  100.00
+
+Serial code is O(N^slope)
+Slope estimates are : 1.047791 1.052517 1.139570 1.108749 1.057440 1.146717 1.148440 2.152523
+Slope estimate for line fit is: 1.174107
+Serial Grade =  100.00
+
+
+Serial code is O(N^slope)
+Slope estimates are : 1.961279 1.988875 1.992776 2.059699
+Slope estimate for line fit is: 1.998691
+Serial Grade =    0.20
+
+We want a slope estimate for line fit of: 1.5 to 1.3
+
+Fast Test
+
+rm serial_sum2.txt; make; ./serial -n 500 -s serial_sum2.txt; ./serial -n 1000 -s serial_sum2.txt; ./autograder -v serial -s serial_sum2.txt
+
+Slow Test
+
+rm serial_sum.txt; make; ./serial -n 500 -s serial_sum.txt; ./serial -n 1000 -s serial_sum.txt; ./serial -n 2000 -s serial_sum.txt; ./serial -n 4000 -s serial_sum.txt; ./autograder -v serial -s serial_sum.txt
+
+Full Test
+
+rm serial_sum2.txt; make; ./serial -n 500 -s serial_sum2.txt; ./serial -n 1000 -s serial_sum2.txt; ./serial -n 2000 -s serial_sum2.txt; ./serial -n 4000 -s serial_sum2.txt; ./serial -n 8000 -s serial_sum2.txt; ./autograder -v serial -s serial_sum2.txt
+
+
+Massive Test
+rm serial_sum2.txt; make; ./serial -n 500 -s serial_sum2.txt; ./serial -n 1000 -s serial_sum2.txt; ./serial -n 2000 -s serial_sum2.txt; ./serial -n 4000 -s serial_sum2.txt; ./serial -n 8000 -s serial_sum2.txt; ./serial -n 16000 -s serial_sum2.txt; ./serial -n 32000 -s serial_sum2.txt; ./serial -n 64000 -s serial_sum2.txt; ./serial -n 128000 -s serial_sum2.txt; ./autograder -v serial -s serial_sum2.txt
+
+
+gg - Got to top
+dG - Erase Everything Below that line[inclusive]
+:set paste - Allows you to paste without weird errors
+Control-V - Pastes
+#i
+
+
+
+Serial code is O(N^slope)
+Slope estimates are : 0.683007 1.297391 1.992990 2.231066
+Slope estimate for line fit is: 1.569929
+Serial Grade =   64.51
+
+./serial -n 2 -s serial_sum2.txt;
