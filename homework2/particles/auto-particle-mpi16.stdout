@@ -1,47 +1,82 @@
-TACC: Starting up job 6735767
+TACC: Starting up job 6798209
 TACC: Setting up parallel environment for MVAPICH2+mpispawn.
 TACC: Starting parallel tasks...
-n = 5000, simulation time = 2.37079 seconds
+n = 500, simulation time = 0.197963 seconds
  
 TACC: Shutdown complete. Exiting.
-TACC: Starting up job 6735767
+TACC: Starting up job 6798209
 TACC: Setting up parallel environment for MVAPICH2+mpispawn.
 TACC: Starting parallel tasks...
-n = 5000, simulation time = 97.5735 seconds
+n = 500, simulation time = 1.0103 seconds
  
 TACC: Shutdown complete. Exiting.
-TACC: Starting up job 6735767
+TACC: Starting up job 6798209
 TACC: Setting up parallel environment for MVAPICH2+mpispawn.
 TACC: Starting parallel tasks...
-n = 5000, simulation time = 49.522 seconds
+n = 500, simulation time = 0.571137 seconds
  
 TACC: Shutdown complete. Exiting.
-TACC: Starting up job 6735767
+TACC: Starting up job 6798209
 TACC: Setting up parallel environment for MVAPICH2+mpispawn.
 TACC: Starting parallel tasks...
-n = 5000, simulation time = 24.8282 seconds
+n = 500, simulation time = 0.340105 seconds
  
 TACC: Shutdown complete. Exiting.
-TACC: Starting up job 6735767
+TACC: Starting up job 6798209
 TACC: Setting up parallel environment for MVAPICH2+mpispawn.
 TACC: Starting parallel tasks...
-n = 5000, simulation time = 12.5273 seconds
+n = 500, simulation time = 0.247937 seconds
  
 TACC: Shutdown complete. Exiting.
-TACC: Starting up job 6735767
+TACC: Starting up job 6798209
 TACC: Setting up parallel environment for MVAPICH2+mpispawn.
 TACC: Starting parallel tasks...
-n = 5000, simulation time = 6.37188 seconds
+n = 500, simulation time = 0.19885 seconds
  
 TACC: Shutdown complete. Exiting.
-TACC: Starting up job 6735767
+TACC: Starting up job 6798209
 TACC: Setting up parallel environment for MVAPICH2+mpispawn.
 TACC: Starting parallel tasks...
-n = 10000, simulation time = 197.116 seconds
+n = 1000, simulation time = 2.02544 seconds
  
 TACC: Shutdown complete. Exiting.
-TACC: Starting up job 6735767
+TACC: Starting up job 6798209
 TACC: Setting up parallel environment for MVAPICH2+mpispawn.
 TACC: Starting parallel tasks...
-slurmstepd: *** JOB 6735767 CANCELLED AT 2016-03-14T21:59:59 DUE TO TIME LIMIT on c401-001 ***
-[c401-001.stampede.tacc.utexas.edu:mpirun_rsh][signal_processor] Caught signal 15, killing job
+n = 2000, simulation time = 4.0443 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6798209
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 4000, simulation time = 8.07847 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6798209
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 8000, simulation time = 16.1694 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6798209
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+
+Strong scaling estimates are :
+    0.20    0.35    0.58    0.80    1.00 (speedup)
+    0.20    0.17    0.15    0.10    0.06 (efficiency)    for
+       1       2       4       8      16 threads/processors
+
+Average strong scaling efficiency:    0.14 
+
+Weak scaling estimates are :
+    0.20    0.10    0.05    0.02    0.01 (efficiency)    for
+       1       2       4       8      16 threads/processors
+
+Average weak scaling efficiency:    0.08 
+
+
+mpi Grade =   15.84
+
+ 
+TACC: Shutdown complete. Exiting.
