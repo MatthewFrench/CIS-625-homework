@@ -147,10 +147,6 @@ int main( int argc, char **argv )
     set_size( n );
     if( rank == 0 )
         init_particles( n, particles );
-    MPI_Scatterv( particles, partition_sizes, partition_offsets, PARTICLE, local, nlocal, PARTICLE, 0, MPI_COMM_WORLD );
-    
-    
-    
     
     
     //Adding code
@@ -227,6 +223,9 @@ int main( int argc, char **argv )
         particleNodes[i] = newNode;
     }
     //Adding code end
+    
+    
+    MPI_Scatterv( particles, partition_sizes, partition_offsets, PARTICLE, local, nlocal, PARTICLE, 0, MPI_COMM_WORLD );
     
     
     
