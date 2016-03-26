@@ -149,6 +149,91 @@ int main( int argc, char **argv )
         init_particles( n, particles );
     MPI_Scatterv( particles, partition_sizes, partition_offsets, PARTICLE, local, nlocal, PARTICLE, 0, MPI_COMM_WORLD );
     
+    
+    
+    
+    
+    //Adding code
+    
+    //Create the field grid
+    double blockSize = cutoff; //Use to be cutoff
+    int searchArea = 4;//33
+    double fieldSize = sqrt(density * n);
+    int gridSize = ceil(fieldSize / blockSize);
+    //Create particle grid
+    ParticleNode ***grid = (ParticleNode ***)malloc(gridSize * sizeof(ParticleNode **));
+    for (int i=0; i<gridSize; i++)
+        grid[i] = (ParticleNode **)malloc(gridSize * sizeof(ParticleNode*));
+    //Create particle node array
+    ParticleNode **particleNodes = (ParticleNode**) malloc( n * sizeof(ParticleNode*) );
+    
+    //Clear the particle grid
+    for (int x = 0; x < gridSize; x++) {
+        for (int y = 0; y < gridSize; y++) {
+            grid[x][y] = NULL;
+        }
+    }
+    
+    //Sort particles in linked lists in the grid
+    for (int i = 0; i < n; i++) {
+        particle_t *particle = &particles[i];
+        //Get location in grid
+        int locationX = floor(particle->x / blockSize);
+        int locationY = floor(particle->y / blockSize);
+        //Get node at that grid location
+        ParticleNode* node = grid[locationX][locationY];
+        //Create new node for particle we are adding
+        ParticleNode* newNode = (ParticleNode*) malloc(sizeof(ParticleNode));
+        newNode->particle = particle;
+        newNode->next = NULL;
+        newNode->prev = NULL;
+        newNode->index = i;
+        if (node == NULL) { //Add the new particle node
+            newNode->gridX = locationX;
+            newNode->gridY = locationY;
+            grid[locationX][locationY] = newNode;
+        } else { //Add the new node to the grid but place it ordered in the linked list based on index to make memory lookup slightly faster
+            newNode->gridX = locationX;
+            newNode->gridY = locationY;
+            ParticleNode* firstNode = node;
+            ParticleNode* pastNode = NULL;
+            while (node->index < i) {
+                pastNode = node;
+                node = node->next;
+                if (node == NULL) break;
+            }
+            //Node should equal either null or a node we need to place our new node in front of
+            if (node == firstNode) {
+                //Just push back the first node
+                newNode->next = node;
+                node->prev = newNode;
+                grid[locationX][locationY] = newNode;
+            } else if (node != NULL) {
+                //Put the new node between two nodes
+                ParticleNode* leftNode = node->prev;
+                ParticleNode* rightNode = node;
+                newNode->prev = leftNode;
+                leftNode->next = newNode;
+                newNode->next = rightNode;
+                rightNode->prev = newNode;
+            } else {
+                //Put the new node at the end
+                ParticleNode* leftNode = pastNode;
+                newNode->prev = leftNode;
+                leftNode->next = newNode;
+            }
+        }
+        //Set the new particle node in the particle nodes array
+        particleNodes[i] = newNode;
+    }
+    //Adding code end
+    
+    
+    
+    
+    
+    
+    
     //
     //  simulate a number of time steps
     //
@@ -247,6 +332,14 @@ int main( int argc, char **argv )
     free( partition_sizes );
     free( local );
     free( particles );
+    for (int i=0; i<gridSize; i++) {
+        free(grid[i]);
+    }
+    free(grid);
+    for (int i = 0; i < n; i++) {
+        free(particleNodes[i]);
+    }
+    free(particleNodes);
     if( fsave )
         fclose( fsave );
     
