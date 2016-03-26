@@ -4,6 +4,75 @@
 #include <assert.h>
 #include "common.h"
 
+#if !defined density
+#define density 0.0005
+#endif
+
+#if !defined mass
+#define mass 0.01
+#endif
+
+#if !defined cutoff
+#define cutoff 0.01
+#endif
+
+#if !defined min_r
+#define min_r (cutoff/100)
+#endif
+
+#if !defined dt
+#define dt      0.0005
+#endif
+
+// changed
+//
+// particle data structure
+//
+struct particleNode
+{
+    particle_t *particle;
+    int gridX, gridY;
+    int index;
+    struct particleNode *next, *prev;
+};
+typedef struct particleNode ParticleNode;
+
+//My updated force function that updates both particles at the same time
+void static inline apply_forceBoth( particle_t &particle, particle_t &neighbor , double *dmin, double *davg, int *navg)
+{
+    
+    double dx = neighbor.x - particle.x;
+    double dy = neighbor.y - particle.y;
+    double r2 = dx * dx + dy * dy;
+    if( r2 > cutoff*cutoff )
+        return;
+    if (r2 != 0)
+    {
+        if (r2/(cutoff*cutoff) < *dmin * (*dmin))
+            *dmin = sqrt(r2)/cutoff;
+        (*davg) += sqrt(r2)/cutoff;
+        (*navg) ++;
+    }
+    
+    r2 = fmax( r2, min_r*min_r );
+    double r = sqrt( r2 );
+    
+    //
+    //  very simple short-range repulsive force
+    //
+    double coef = ( 1 - cutoff / r ) / r2 / mass;
+    
+    double coefdx = coef * dx;
+    double coefdy = coef * dy;
+    
+    particle.ax += coefdx;
+    particle.ay += coefdy;
+    
+    neighbor.ax -= coefdx;
+    neighbor.ay -= coefdy;
+}
+
+
 //
 //  benchmarking program
 //
@@ -106,8 +175,9 @@ int main( int argc, char **argv )
         for( int i = 0; i < nlocal; i++ )
         {
             local[i].ax = local[i].ay = 0;
-            for (int j = 0; j < n; j++ )
+            for (int j = 0; j < n; j++ ) {
                 apply_force( local[i], particles[j], &dmin, &davg, &navg );
+            }
         }
      
         if( find_option( argc, argv, "-no" ) == -1 )
@@ -133,8 +203,9 @@ int main( int argc, char **argv )
         //
         //  move particles
         //
-        for( int i = 0; i < nlocal; i++ )
+        for( int i = 0; i < nlocal; i++ ) {
             move( local[i] );
+        }
     }
     simulation_time = read_timer( ) - simulation_time;
   
