@@ -110,6 +110,8 @@ int main( int argc, char **argv )
     MPI_Comm_size( MPI_COMM_WORLD, &n_proc );
     MPI_Comm_rank( MPI_COMM_WORLD, &rank );
     
+    printf("n_proc: %d, rank: %d \n", n_proc, rank);
+    
     //
     //  allocate generic resources
     //
@@ -150,7 +152,7 @@ int main( int argc, char **argv )
     
     
     //Adding code
-    
+    /*
     //Create the field grid
     double blockSize = cutoff; //Use to be cutoff
     int searchArea = 2;//33
@@ -222,6 +224,7 @@ int main( int argc, char **argv )
         //Set the new particle node in the particle nodes array
         particleNodes[i] = newNode;
     }
+     */
     //Adding code end
     
     
@@ -237,6 +240,7 @@ int main( int argc, char **argv )
     //  simulate a number of time steps
     //
     double simulation_time = read_timer( );
+    
     for( int step = 0; step < NSTEPS; step++ )
     {
         navg = 0;
