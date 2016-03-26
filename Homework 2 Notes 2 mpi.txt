@@ -3,6 +3,8 @@ sbatch job-stampede-mpi16
 
 sbatch job-stampede-mpi16-massive
 
+more job-particle-mpi16.stdout
+
 Benchmark: 
 
 sbatch auto-stampede-mpi16
