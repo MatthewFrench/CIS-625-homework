@@ -16,7 +16,6 @@ __device__ void apply_force_gpu(particle_t * particles,int tid, int n)
 {
 	
 	particle_t &particle = particles[tid];
-	apply_force_gpu(particles[tid], particles[j], n)
 	for(int j = 0 ; j < n ; j++)
 	{
 		particle_t &neighbor = particles[j];
