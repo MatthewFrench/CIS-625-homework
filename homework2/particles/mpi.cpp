@@ -180,32 +180,34 @@ int main( int argc, char **argv )
                 apply_force( local[i], particles[j], &dmin, &davg, &navg );
             }
         }
-     
-        if( find_option( argc, argv, "-no" ) == -1 )
-        {
-          
-          MPI_Reduce(&davg,&rdavg,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-          MPI_Reduce(&navg,&rnavg,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
-          MPI_Reduce(&dmin,&rdmin,1,MPI_DOUBLE,MPI_MIN,0,MPI_COMM_WORLD);
-
- 
-          if (rank == 0){
-            //
-            // Computing statistical data
-            //
-            if (rnavg) {
-              absavg +=  rdavg/rnavg;
-              nabsavg++;
-            }
-            if (rdmin < absmin) absmin = rdmin;
-          }
-        }
 
         //
         //  move particles
         //
         for( int i = 0; i < nlocal; i++ ) {
             move( local[i] );
+        }
+        
+        
+        
+        if( find_option( argc, argv, "-no" ) == -1 )
+        {
+            
+            MPI_Reduce(&davg,&rdavg,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+            MPI_Reduce(&navg,&rnavg,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
+            MPI_Reduce(&dmin,&rdmin,1,MPI_DOUBLE,MPI_MIN,0,MPI_COMM_WORLD);
+            
+            
+            if (rank == 0){
+                //
+                // Computing statistical data
+                //
+                if (rnavg) {
+                    absavg +=  rdavg/rnavg;
+                    nabsavg++;
+                }
+                if (rdmin < absmin) absmin = rdmin;
+            }
         }
     }
     simulation_time = read_timer( ) - simulation_time;

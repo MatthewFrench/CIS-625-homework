@@ -1,5 +1,14 @@
-showq -u
-sbatch auto-stampede-mpi16
-more auto-particle-mpi16.stdout
+Test for correctness:
+sbatch job-stampede-mpi16
 
-rm mpi_sum.txt;ibrun -n 1 -o 0 ./serial -n 500 -no -s mpi_sum.txt;ibrun -n 1 -o 0 ./mpi -n 500 -no -s mpi_sum.txt;ibrun -n 2 -o 0 ./mpi -n 500 -no -s mpi_sum.txt;ibrun -n 4 -o 0 ./mpi -n 500 -no -s mpi_sum.txt;ibrun -n 8 -o 0 ./mpi -n 500 -no -s mpi_sum.txt;ibrun -n 16 -o 0 ./mpi -n 500 -no -s mpi_sum.txt;ibrun -n 2 -o 0 ./mpi -n 1000 -no -s mpi_sum.txt;ibrun -n 4 -o 0 ./mpi -n 2000 -no -s mpi_sum.txt;ibrun -n 8 -o 0 ./mpi -n 4000 -no -s mpi_sum.txt;ibrun -n 16 -o 0 ./mpi -n 8000 -no -s mpi_sum.txt;ibrun -n 1 -o 0 ./autograder -v mpi -s mpi_sum.txt
+sbatch job-stampede-mpi16-massive
+
+Benchmark: 
+
+sbatch auto-stampede-mpi16
+
+sbatch auto-stampede-mpi16-massive
+
+
+showq -u
+more auto-particle-mpi16.stdout
