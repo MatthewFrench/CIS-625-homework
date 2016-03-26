@@ -7,4 +7,4 @@ Can use Maverick instead of Stampede. Maverick is a GPU equipped machine.
 Serial - 100%
 OpenMP - 100% with serial trick
 MPI - Not Done
-GPU - Not Done
+GPU - Not Done 
