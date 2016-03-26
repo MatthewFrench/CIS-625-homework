@@ -153,7 +153,7 @@ int main( int argc, char **argv )
     
     //Create the field grid
     double blockSize = cutoff; //Use to be cutoff
-    int searchArea = 4;//33
+    int searchArea = 2;//33
     double fieldSize = sqrt(density * n);
     int gridSize = ceil(fieldSize / blockSize);
     //Create particle grid
@@ -331,7 +331,7 @@ int main( int argc, char **argv )
     free( partition_sizes );
     free( local );
     free( particles );
-    /*
+    
     for (int i=0; i<gridSize; i++) {
         free(grid[i]);
     }
@@ -340,7 +340,7 @@ int main( int argc, char **argv )
         free(particleNodes[i]);
     }
     free(particleNodes);
-     */
+    
     if( fsave )
         fclose( fsave );
     
