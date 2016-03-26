@@ -335,7 +335,7 @@ int main( int argc, char **argv )
     free( partition_sizes );
     free( local );
     free( particles );
-    
+    /*
     for (int i=0; i<gridSize; i++) {
         free(grid[i]);
     }
@@ -344,7 +344,7 @@ int main( int argc, char **argv )
         free(particleNodes[i]);
     }
     free(particleNodes);
-    
+    */
     if( fsave )
         fclose( fsave );
     
