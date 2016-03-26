@@ -86,9 +86,9 @@ __global__ void move_gpu (particle_t * particles, int n, double size)
 
 
 int main( int argc, char **argv )
-{    
+{
     // This takes a few seconds to initialize the runtime
-    cudaThreadSynchronize(); 
+    cudaThreadSynchronize();
 
     if( find_option( argc, argv, "-h" ) >= 0 )
     {
@@ -99,12 +99,12 @@ int main( int argc, char **argv )
 	printf( "-s <filename> to specify the summary output file name\n" );
         return 0;
     }
-    
+
     int n = read_int( argc, argv, "-n", 1000 );
 
     char *savename = read_string( argc, argv, "-o", NULL );
     char *sumname = read_string( argc, argv, "-s", NULL );
-    
+
     FILE *fsave = savename ? fopen( savename, "w" ) : NULL;
     FILE *fsum = sumname ? fopen(sumname,"a") : NULL;
     particle_t *particles = (particle_t*) malloc( n * sizeof(particle_t) );
@@ -125,7 +125,7 @@ int main( int argc, char **argv )
 
     cudaThreadSynchronize();
     copy_time = read_timer( ) - copy_time;
-    
+
     //
     //  simulate a number of time steps
     //
@@ -140,12 +140,12 @@ int main( int argc, char **argv )
 
 	int blks = (n + NUM_THREADS - 1) / NUM_THREADS;
 	compute_forces_gpu <<< blks, NUM_THREADS >>> (d_particles, n);
-        
+
         //
         //  move particles
         //
 	move_gpu <<< blks, NUM_THREADS >>> (d_particles, n, size);
-        
+
         //
         //  save if necessary
         //
@@ -157,7 +157,7 @@ int main( int argc, char **argv )
     }
     cudaThreadSynchronize();
     simulation_time = read_timer( ) - simulation_time;
-    
+
     printf( "CPU-GPU copy time = %g seconds\n", copy_time);
     printf( "n = %d, simulation time = %g seconds\n", n, simulation_time );
 
@@ -165,11 +165,11 @@ int main( int argc, char **argv )
 	fprintf(fsum,"%d %lf \n",n,simulation_time);
 
     if (fsum)
-	fclose( fsum );    
+	fclose( fsum );
     free( particles );
     cudaFree(d_particles);
     if( fsave )
         fclose( fsave );
-    
+
     return 0;
 }
