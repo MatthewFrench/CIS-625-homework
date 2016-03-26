@@ -5,15 +5,17 @@
 #include <cuda.h>
 #include "common.h"
 
-#define NUM_THREADS 256
+#define NUM_THREADS 1024
 
 extern double size;
 //
 //  benchmarking program
 //
 
-__device__ void apply_force_gpu(particle_t &particle, particle_t &neighbor)
+__device__ void apply_force_gpu(particle_t &particle, particle_t &neighbor, int n)
 {
+	for(int j = 0 ; j < n ; j++)
+	{
   double dx = neighbor.x - particle.x;
   double dy = neighbor.y - particle.y;
   double r2 = dx * dx + dy * dy;
@@ -29,6 +31,7 @@ __device__ void apply_force_gpu(particle_t &particle, particle_t &neighbor)
   double coef = ( 1 - cutoff / r ) / r2 / mass;
   particle.ax += coef * dx;
   particle.ay += coef * dy;
+	}
 
 }
 
@@ -39,8 +42,8 @@ __global__ void compute_forces_gpu(particle_t * particles, int n)
   if(tid >= n) return;
 
   particles[tid].ax = particles[tid].ay = 0;
-  for(int j = 0 ; j < n ; j++)
-    apply_force_gpu(particles[tid], particles[j]);
+  
+    apply_force_gpu(particles[tid], particles[j], n);
 
 }
 
