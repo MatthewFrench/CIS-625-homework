@@ -12,10 +12,14 @@ extern double size;
 //  benchmarking program
 //
 
-__device__ void apply_force_gpu(particle_t &particle, particle_t &neighbor, int n)
+__device__ void apply_force_gpu(particle_t * particles,int tid, int n)
 {
+	
+	particle_t &particle = particles[tid];
+	apply_force_gpu(particles[tid], particles[j], n)
 	for(int j = 0 ; j < n ; j++)
 	{
+		particle_t &neighbor = particles[j];
   double dx = neighbor.x - particle.x;
   double dy = neighbor.y - particle.y;
   double r2 = dx * dx + dy * dy;
@@ -43,7 +47,7 @@ __global__ void compute_forces_gpu(particle_t * particles, int n)
 
   particles[tid].ax = particles[tid].ay = 0;
   
-    apply_force_gpu(particles[tid], particles[j], n);
+    apply_force_gpu(particles, tid, n);
 
 }
 
