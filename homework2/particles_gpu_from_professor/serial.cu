@@ -77,7 +77,7 @@ int main( int argc, char **argv )
 	bins[binNum(particles[i],bpr)].push_back(particles + i);
 
       //
-      //  compute forces
+      //  compute forces here
       //
       for( int p = 0; p < n; p++ )
       {
