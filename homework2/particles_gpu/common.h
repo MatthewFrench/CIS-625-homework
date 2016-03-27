@@ -41,6 +41,7 @@ double read_timer( );
 void set_size( int n );
 void init_particles( int n, particle_t *p );
 void apply_force( particle_t &particle, particle_t &neighbor );
+void apply_force2( particle_t &particle, particle_t &neighbor , double *dmin, double *davg, int *navg);
 void move( particle_t &p );
 
 //
