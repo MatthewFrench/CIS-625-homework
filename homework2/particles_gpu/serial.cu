@@ -101,7 +101,7 @@ int main( int argc, char **argv )
 	  {
 	    int nbin = cbin + i + bpr*j;
 	    for (int k = 0; k < bins[nbin].size(); k++ )
-	      apply_force( particles[p], *bins[nbin][k], &dmin, &davg, &navg);
+	      apply_force2( particles[p], *bins[nbin][k], &dmin, &davg, &navg);
 	  }
       }
         
