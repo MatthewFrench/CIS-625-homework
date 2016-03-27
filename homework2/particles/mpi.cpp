@@ -4,6 +4,8 @@
 #include <assert.h>
 #include <math.h>
 #include "common.h"
+#include <vector>
+using namespace std;
 
 #if !defined density
 #define density 0.0005
@@ -24,6 +26,13 @@
 #if !defined dt
 #define dt      0.0005
 #endif
+
+
+// calculate particle's bin number
+int binNum(particle_t &p, int bpr)
+{
+    return ( floor(p.x/cutoff) + bpr*floor(p.y/cutoff) );
+}
 
 // changed
 //
@@ -151,6 +160,14 @@ int main( int argc, char **argv )
         init_particles( n, particles );
     
     
+    
+    
+    // create spatial bins (of size cutoff by cutoff)
+    double size = sqrt( density*n );
+    int bpr = ceil(size/cutoff);
+    int numbins = bpr*bpr;
+    vector<particle_t*> *bins = new vector<particle_t*>[numbins];
+    
     //Adding code
     /*
     //Create the field grid
@@ -258,6 +275,7 @@ int main( int argc, char **argv )
           if( fsave && (step%SAVEFREQ) == 0 )
             save( fsave, n, particles );
         
+        /*
         //
         //  compute all forces
         //
@@ -274,7 +292,49 @@ int main( int argc, char **argv )
         //
         for( int i = 0; i < nlocal; i++ ) {
             move( local[i] );
+        }*/
+        // clear bins at each time step
+        for (int m = 0; m < numbins; m++)
+            bins[m].clear();
+        
+        // place particles in bins
+        for (int i = 0; i < n; i++)
+            bins[binNum(particles[i],bpr)].push_back(particles + i);
+        
+        //
+        //  compute forces here
+        //
+        for( int p = 0; p < nlocal; p++ )
+        {
+            local[p].ax = local[p].ay = 0;
+            
+            // find current particle's bin, handle boundaries
+            int cbin = binNum( local[p], bpr );
+            int lowi = -1, highi = 1, lowj = -1, highj = 1;
+            if (cbin < bpr)
+                lowj = 0;
+            if (cbin % bpr == 0)
+                lowi = 0;
+            if (cbin % bpr == (bpr-1))
+                highi = 0;
+            if (cbin >= bpr*(bpr-1))
+                highj = 0;
+            
+            // apply nearby forces
+            for (int i = lowi; i <= highi; i++)
+                for (int j = lowj; j <= highj; j++)
+                {
+                    int nbin = cbin + i + bpr*j;
+                    for (int k = 0; k < bins[nbin].size(); k++ )
+                        apply_force2( local[p], *bins[nbin][k], &dmin, &davg, &navg);
+                }
         }
+        
+        //
+        //  move particles
+        //
+        for( int p = 0; p < nlocal; p++ )
+            move( local[p] );
         
         
         
@@ -335,6 +395,7 @@ int main( int argc, char **argv )
     free( partition_sizes );
     free( local );
     free( particles );
+    delete [] bins;
     /*
     for (int i=0; i<gridSize; i++) {
         free(grid[i]);
