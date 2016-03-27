@@ -2,12 +2,9 @@ Running Particle GPU from Professor
 
 Test for correctness on Maverick:
 sbatch job-stampede-gpu
-
-Run for correctness locally:
-./serial -n 2000 -o serial.txt
-./autocorrect -s serial.txt
+more particle-gpu.stdout
 
 Run for speed benchmark on Maverick:
 sbatch auto-stampede-gpu
 showq -u
-./autograder -v gpu -s gpusum.txt
+more auto-particle-gpu.stdout

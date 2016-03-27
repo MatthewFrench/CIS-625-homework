@@ -11,9 +11,9 @@ ibrun ./gpu -n 20000 -s gpusum.txt
 ibrun ./gpu -n 40000 -s gpusum.txt
 ibrun ./gpu -n 80000 -s gpusum.txt
 ibrun ./gpu -n 160000 -s gpusum.txt
-#ibrun ./serial -n 10000 -s gpusum.txt
-#ibrun ./serial -n 20000 -s gpusum.txt
-#ibrun ./serial -n 40000 -s gpusum.txt
-#ibrun ./serial -n 80000 -s gpusum.txt
-#ibrun ./serial -n 160000 -s gpusum.txt
-#./autograder -v gpu -s gpusum.txt
+ibrun ./serial -n 10000 -s gpusum.txt
+ibrun ./serial -n 20000 -s gpusum.txt
+ibrun ./serial -n 40000 -s gpusum.txt
+ibrun ./serial -n 80000 -s gpusum.txt
+ibrun ./serial -n 160000 -s gpusum.txt
+./autograder -v gpu -s gpusum.txt
