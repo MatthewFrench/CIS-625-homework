@@ -119,8 +119,6 @@ int main( int argc, char **argv )
     MPI_Comm_size( MPI_COMM_WORLD, &n_proc );
     MPI_Comm_rank( MPI_COMM_WORLD, &rank );
     
-    printf("n_proc: %d, rank: %d \n", n_proc, rank);
-    
     //
     //  allocate generic resources
     //
