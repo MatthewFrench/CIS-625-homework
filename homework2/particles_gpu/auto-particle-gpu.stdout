@@ -1,0 +1,78 @@
+rm: cannot remove `gpusum.txt': No such file or directory
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+CPU-GPU copy time = 0.000287 seconds
+n = 10000, simulation time = 7.99221 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+CPU-GPU copy time = 0.000509 seconds
+n = 20000, simulation time = 31.6782 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+CPU-GPU copy time = 0.000786 seconds
+n = 40000, simulation time = 107.451 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+CPU-GPU copy time = 0.001256 seconds
+n = 80000, simulation time = 365.444 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+CPU-GPU copy time = 0.00226 seconds
+n = 160000, simulation time = 1322.12 seconds
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 10000, simulation time = 1.77088 seconds, absmin = 0.770463, absavg = 0.957179
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 20000, simulation time = 3.74762 seconds, absmin = 0.757435, absavg = 0.957064
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 40000, simulation time = 7.87852 seconds, absmin = 0.759080, absavg = 0.956896
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 80000, simulation time = 18.5682 seconds, absmin = 0.718220, absavg = 0.957016
+ 
+TACC: Shutdown complete. Exiting.
+TACC: Starting up job 6804385
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+n = 160000, simulation time = 64.335 seconds, absmin = 0.727212, absavg = 0.956987
+ 
+TACC: Shutdown complete. Exiting.
+
+GPU code is O(N^slope)
+Slope estimates are : 1.986823 1.762115 1.765976 1.855132
+Slope estimate for line fit is: 1.826818
+
+GPU speedup estimates are :
+    0.22    0.12    0.07    0.05    0.05 (speedup)
+Average speedup:    0.10 
+
+
+GPU Total Grade =    0.00
+
