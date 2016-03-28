@@ -91,7 +91,7 @@ __global__ void compute_forces_gpu(particle_t * particles, int n, particle_t * b
     if (cbin >= binsPerSide*(binsPerSide-1)) highj = 0;
     
     // apply nearby forces
-    for (int i = lowi; i <= highi; i++)
+    for (int i = lowi; i <= highi; i++) {
         for (int j = lowj; j <= highj; j++)
         {
             int nbin = cbin + i + binsPerSide*j;
