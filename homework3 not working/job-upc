@@ -1,7 +1,6 @@
 #!/bin/bash -l 
-#SBATCH -p development
+#SBATCH -p debug
 #SBATCH -N 1
-#SBATCH -n 3
 #SBATCH -t 00:10:00 
 #SBATCH -J upc-HW3
 #SBATCH -o upc-HW3.%j.out
@@ -14,8 +13,9 @@ INPUT=test		# Path to your input file
 cd ${PWD}
 
 # Run program
-./serial ${INPUT}
-tacc-upcrun -np $P -shared-heap=1G ./pgen ${INPUT}
+srun -n 1 ./serial ${INPUT}
+upcrun -n $P -shared-heap=1G ./pgen ${INPUT}
+
 
 # Sort contigs in both output files to compare
 sort serial.out > serial.sorted

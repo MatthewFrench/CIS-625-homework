@@ -1,5 +1,5 @@
 #!/bin/bash -l 
-#SBATCH -p development
+#SBATCH -p debug
 #SBATCH -N 1
 #SBATCH -t 00:30:00 
 #SBATCH -J single-HW3
@@ -12,13 +12,13 @@ INPUT=test
 
 cd ${PWD}
 for P in `seq 1 6`; do
-	tacc-upcrun -np $P -shared-heap=3G ./pgen ${INPUT}
+	upcrun -n $P -shared-heap=1G ./pgen ${INPUT}
 done
 for P in `seq 7 12`; do
-	tacc-upcrun -np $P -shared-heap=2G ./pgen ${INPUT}
+	upcrun -n $P -shared-heap=1G ./pgen ${INPUT}
 done
 for P in `seq 13 24`; do
-	tacc-upcrun -np $P -shared-heap=1G ./pgen ${INPUT}
+	upcrun -n $P -shared-heap=1G ./pgen ${INPUT}
 done
 
 
