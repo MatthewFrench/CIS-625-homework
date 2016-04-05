@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 #!/bin/bash  
 #SBATCH -p development
 #SBATCH -N 1
-=======
-#!/bin/bash -l 
-#SBATCH -p normal
->>>>>>> origin/master
 #SBATCH -n 1
 #SBATCH -t 00:10:00 
 #SBATCH -J serial-HW3

@@ -38,8 +38,7 @@ int64_t hashseq(int64_t  hashtable_size, char *seq, int size)
 {
    unsigned long hashval;
    hashval = 5381;
-   int i;
-   for(i = 0; i < size; i++) {
+   for(int i = 0; i < size; i++) {
       hashval = seq[i] +  (hashval << 5) + hashval;
    }
    

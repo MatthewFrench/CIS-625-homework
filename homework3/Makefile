@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 CC = gcc
-=======
-CC = cc
->>>>>>> origin/master
 UPCC = upcc
 
 KMER_LENGTH 		= 19
