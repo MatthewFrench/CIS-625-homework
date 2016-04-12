@@ -1,0 +1,103 @@
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_17][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_47][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_37][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_61][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_57][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_20][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_24][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_53][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_43][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_62][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_30][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_27][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_26][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_75][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_49][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_22][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_41][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_38][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_80][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][readline] Unexpected End-Of-File on file descriptor 40. MPI process died?
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][mtpmi_processops] Error while reading PMI socket. MPI process died?
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_42][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_14][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_79][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_23][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_68][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_39][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_32][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_50][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_76][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_66][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_12][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_85][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_58][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_71][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_33][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_77][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_45][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_15][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_25][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_82][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_65][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_19][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_44][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_36][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_48][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_78][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_51][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_64][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_84][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_55][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_73][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_74][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_21][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_40][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_60][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_18][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_72][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_28][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_81][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_59][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_56][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_67][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_69][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_31][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_63][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_16][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_11][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_34][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_70][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_29][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_35][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_54][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_46][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_10][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_52][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_13][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpi_rank_83][error_sighandler] Caught error: Segmentation fault (signal 11)
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 57, pid: 70790) terminated with signal 11 -> abort job
+[c559-602.stampede.tacc.utexas.edu:mpirun_rsh][process_mpispawn_connection] mpispawn_0 from node c559-602 aborted: Error while reading a PMI socket (4)
+[cli_0]: aborting job:
+Fatal error in MPI_Init:
+Other MPI error, error stack:
+MPIR_Init_thread(483)....: 
+MPID_Init(367)...........: channel initialization failed
+MPIDI_CH3_Init(417)......: 
+MPIDI_CH3I_SMP_Init(1791): ftruncate: Invalid argument
+
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][readline] Unexpected End-Of-File on file descriptor 45. MPI process died?
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][mtpmi_processops] Error while reading PMI socket. MPI process died?
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 0, pid: 71118) exited with status 1
+[cli_0]: aborting job:
+Fatal error in MPI_Init:
+Other MPI error, error stack:
+MPIR_Init_thread(483)....: 
+MPID_Init(367)...........: channel initialization failed
+MPIDI_CH3_Init(417)......: 
+MPIDI_CH3I_SMP_Init(1791): ftruncate: Invalid argument
+
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][readline] Unexpected End-Of-File on file descriptor 11. MPI process died?
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][mtpmi_processops] Error while reading PMI socket. MPI process died?
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 0, pid: 71551) exited with status 1
+[c559-602.stampede.tacc.utexas.edu:mpispawn_0][report_error] connect() failed: Connection refused (111)
