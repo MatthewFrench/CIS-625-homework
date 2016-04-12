@@ -1,5 +1,6 @@
 #!/bin/bash -l 
 #SBATCH -p development
+#SBATCH -N 8
 #SBATCH -n 8
 #SBATCH -t 00:20:00 
 #SBATCH -J multi-HW3
