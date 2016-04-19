@@ -1,0 +1,24 @@
+ssh yang@kraken.ist.berkeley.edu
+
+密码 yangyang
+
+
+
+password: iMHyTKULL9HGXfbUeUqXpxXh6ZVCEKGFtzi
+
+ssh leonardt@login.xsede.org
+# copy paste password
+gsissh -p 2222 stampede.tacc.xsede.org # To ssh into stampede
+
+module load cuda
+
+
+
+Hopper Login
+
+ssh -l jxwuyi hopper.nersc.gov
+pass: 8500 pass
+
+module swap PrgEnv-pgi PrgEnv-gnu
+module load bupc
+

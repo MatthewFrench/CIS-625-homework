@@ -1,0 +1,306 @@
+
+<!-- saved from url=(0065)http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<title>CS267 Assignment 3: Parallelize Graph Algorithms for de Novo Genome Assembly</title>
+</head>
+<body>
+	<h1>CS267 Assignment 3: Parallelize Graph Algorithms for de Novo Genome Assembly</h1>
+	<h2>Due <strike>Friday, April 3, 2015 at 11:59:59pm</strike> Tuesday, April 7, 2015 at 11:59:59pm</h2>
+	<h2>Overview</h2>
+	<p>
+	Here is some background on de novo genome DNA assembly (though strictly speaking you don't need to
+	know it to do this assignment). DNA assembly is the determination of the precise order of the nucleotides
+	in a DNA molecule. A DNA molecule consists of four different bases, namely, adenine (A), guanine (G),
+	cytosine (C), and thymine (T). For the purposes of this assignment we consider a DNA molecule to be a
+	DNA strand, e.g. CTAGGAGCT (although in reality the number of bases for an actual DNA strand is much
+	larger -- on the order of billions).
+	</p><p>
+	Unfortunately we can not read the whole DNA strand in one go and therefore researchers have come up
+	with alternative methods. One such method is called <i>shotgun sequencing</i>. In this method, many copies of
+	the original DNA strand are made. Each copy is then fragmented randomly into pieces. We cannot control
+	how the copies are fragmented; they are randomly split into short contiguous fragments. Next, we read each
+	small fragment and each result is called <i>"short read"</i>. Finally, we use all the short reads to reconstruct the
+	original DNA strand. Figure 1 shows the process.
+	</p>
+	<figure align="center" style="padding-bottom: 10px">
+		<img src="./CS267 Assignment 3  Parallelize Graph Algorithms for de Novo Genome Assembly_files/assembly.png" style="margin-bottom: -10px">
+		<figcaption>
+			<b>Figure 1:</b> Shotgun sequencing <br>
+			source: <a href="http://people.mpi-inf.mpg.de/~sven/images/assembly.png">http://people.mpi-inf.mpg.de/~sven/images/assembly.png</a>
+		</figcaption>
+	</figure>
+	<p>
+	Typically the short reads we get from shotgun sequencing are significantly shorter than the actual DNA
+	strand they came from and this imposes a first challenge. A second challenge stems from the fact that the
+	short reads include sequencing errors (with some error rate) and this makes the de novo genome assembly
+	even harder. There are methods to preprocess the short reads and implicitly exclude the errors. These
+	methods are outside of the scope of this homework assignment and we refer the interested reader to <a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/index.html#ref1">[1]</a>.
+	</p><p>
+	The outcome of this preprocessing are <i>unique</i> sequence fragments of length k, henceforth called k-mers,
+	that represent error-free DNA segments. Also, each k-mer is associated with a <i>forward</i> and a <i>backward
+	extension</i>; these are the bases that should follow and precede the k-mer sequence in the actual DNA strand
+	we want to reconstruct. Given a set of unique k-mers (i.e. each k-mer appears only once in the set), we
+	can build a special graph which is a compact representation of the connectivity among these k-mers. This
+	special type of graph is called <i>de Bruijn</i> and in general a de Bruijn graph is used to represent overlaps
+	between sequences of symbols.
+	</p><p>
+	More specifically, in this de Bruijn graph of k-mers the vertices are the actual k-mers and two vertices are
+	connected with a edge if the corresponding k-mers overlap in k-1 bases. Each vertex in the de Bruijn graph
+	is guaranteed to have at most two neighbors. Additionally, each vertex in the de Bruijn graph is unique since
+	the k-mers are unique. An example of such a de Bruijn graph is shown in Figure 2 where we illustrate a
+	graph with k = 3. In this particular graph, nodes ATC and TCT are connected with an edge because they
+	overlap in 2 bases (TC).
+	</p>
+	
+	<figure align="center" style="padding-bottom: 10px">
+		<img src="./CS267 Assignment 3  Parallelize Graph Algorithms for de Novo Genome Assembly_files/dbg.png" width="800px" style="padding-bottom: 10px">
+		<figcaption>
+			<b>Figure 2:</b> A de Bruijn graph with k = 3.
+			We can identify three connected components (contigs) and six start nodes: GAT, TGA, AAT, TGC, AAC, CCG. <br>
+			The contigs that are represented in this graph via connected components are: GATCTGA, AACCG and AATGC.
+		</figcaption>
+	</figure>
+	
+	<p>
+	After building the de Bruijn graph, we can traverse it and find connected components that are called <i>contigs</i>
+	-- which is an abbreviation of contiguous. Note that these connected components should be linear chains due
+	to the nature of DNA. Contigs are <i>error-free</i> DNA sequences significantly longer than the original reads.
+	Finally, the contigs are linked together by leveraging information of the original reads and eventually we
+	get a set of <i>scaffolds</i> which constitute the final result of the de novo genome assembly. For this assignment,
+	we will be focusing on the parallel construction and traversal of the de Bruijn graph of k-mers (with a
+	few assumptions and simplifications) and we refer the interested reader to <a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/index.html#ref1">[1]</a> for more information on the
+	scaffolding phase.
+	</p>
+	<hr>
+	
+	<h2>Problem Statement</h2>
+	<p>
+	The <b>input</b> of the problem is a set of unique k-mers and their corresponding forward and backward extensions.
+	There are also k-mers which correspond to <i>start</i> nodes in the de Bruijn graph: they indicate the start of a
+	connected component. A start k-mer is flagged by having either its forward or its backward extension to be
+	a "guard" extension F. In the example graph in Figure 2 the start node GAT has F as backward extension and
+	the start node TGA has F as forward extension. Similarly, each connected component in the graph has two
+	start nodes. The <b>answer</b> to the problem is a set of contigs that can be generated by traversing the de Bruijn
+	graph and finding the connected components in it.
+	</p><p>
+	In this assignment we will be using a hash table <a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/index.html#ref2">[2]</a> with separate chaining for collisions to store efficiently
+	the underlying de Bruijn graph. In particular, a key in the hash table represents a node in the de Bruijn graph
+	and its value is a two-letter code that implicitly stores its adjacent vertices (or equivalently the incident
+	edges) efficiently. Figure 3 shows the de Bruijn graph of Figure 2 stored in a hash table. Note that each
+	entry in the hash table includes a k-mer (key) and its corresponding forward and backward extensions.
+	</p>
+	
+	<figure align="center" style="padding-bottom: 10px">
+		<img src="./CS267 Assignment 3  Parallelize Graph Algorithms for de Novo Genome Assembly_files/hash.png" width="640px" style="padding-bottom: 10px">
+		<figcaption><b>Figure 3:</b> The de Bruijn graph of Figure 2 stored in a hash table with separate chaining for resolving
+collisions in the buckets.</figcaption>
+	</figure>
+	
+	<p>
+	Given a k-mer, we can concatenate its backward extension and the first k-1 bases of the k-mer and we get
+	the preceding vertex (k-mer) in the graph. Similarly, if we concatenate the last k-1 bases of the k-mer and
+	its forward extension we get the following vertex in the graph. For example, in the graph of Figure 2, node
+	TCT is stored in the hash table with key TCT and its forward extension is G while the backward extension
+   is A, meaning that CTG is the following vertex and ATC is the preceding vertex. Also, we emphasize that the de Bruijn graph is undirected and therefore we can visit a vertex both from the following node and from the preceding node.
+	</p>
+	<hr>
+	
+	<h2>Serial Algorithm</h2>
+	<p>
+	Algorithm 1 illustrates the serial de Bruijn graph construction and traversal procedure. First, we store the
+	input k-mers and their corresponding extensions in the hash table. If the backward extension of a k-mer is
+	F, we append that k-mer in a <i>startNodesList</i> since we know that this is a start node in the de Bruijn graph
+	and we can use this vertex as a traversal seed.
+	</p>
+
+	<figure align="center">
+		<img src="./CS267 Assignment 3  Parallelize Graph Algorithms for de Novo Genome Assembly_files/algo.png" width="840px">
+	</figure>
+	
+	<p>
+	After storing the input in the hash table, we iterate over the startNodesList and we pick traversal seeds.
+	Given a traversal seed, we initialize a new contig sequence with that seed (k-mer) content. Then we expand
+	the current contig sequence by iteratively adding one base at a time. Specifically, by taking the last k bases of
+	the contig we form a new k-mer and we look it up in the hash table. As a result of this look up we get a new
+	forward extension and we append it at the end of the current contig. We terminate the current traversal (and
+	the current contig) when we encounter a forward extension that is <i>F</i> -- we know that we found the other start
+	node of this connected component. The graph traversal is completed when all the connected components
+	have been discovered or equivalently when all the start nodes from the <i>startNodesList</i> have been exhausted.
+	</p>
+	<hr>
+	
+	<h2>Assignment</h2>
+	<p>
+	For this assignment you are asked to parallelize the de Bruijn graph construction and traversal algorithm by
+	using the Unified Parallel C (UPC) programming language. You can assume that the number of connected
+	components in the de Bruijn graph is orders of magnitude larger that the number of processors. We will
+	examine the strong scaling efficiency of your code in two scenarios:
+	</p>
+	<ul>
+		<li><b>Single node experiment:</b> In this experiment we will give you an input graph that fits in a single
+node's memory. Therefore you will be experimenting with 1... 24 cores.</li>
+		<li><b>Multiple nodes experiment:</b> In this experiment we will give you a quite large input graph and we
+will pretend that it does not fit in a single node's memory. Actually this is a typical case in real
+world's genomes (and metagenomes), where the underlying de Bruijn graph does not fit in a single
+node's memory. (The human genome consists of ~3 billion bases while the wheat genome consists of ~17 billion bases!) In this scenario you will be experimenting with 96, 120, 144, 168, 192 cores. Note:
+if we gave you a real graph that doesn't fit in a single node's memory you'd have to spend a lot of
+computational cycles.</li>
+	Your code should be generating the same set of contigs as the serial version we give you.
+	<div style="color: red;">
+		<a name="update2"><h3 style="padding-bottom: 0px; margin-bottom: 0px">Updated on 03/31/15:</h3></a>
+		For the multiple-node case, feel free to output up to <b>p</b> files when running on <b>p</b> processors (you are welcome to output just one file as well).
+		All your output file names must begin with <b>pgen</b> and end with <b>.out</b>. 
+	</div>
+	</ul>
+	<hr>
+	
+	<h2>Source Code</h2>
+	<table><tbody>
+		<tr>
+			<td width="20pt"></td>
+			<td><dl>
+				<dt>
+					<a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/serial.c">serial.cpp</a>,
+					<a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/contig_generation.h">contig_generation.h</a>,
+					<a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/kmer_hash.h">kmer_hash.h</a>,
+					<a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/packingDNAseq.h">packingDNAseq.h</a>
+				</dt>
+				<dd>a serial implementation that you need to efficiently parallelize,</dd>
+				<dt><a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/pgen.upc">pgen.upc</a></dt>
+				<dd>a UPC code skeleton for you to start,</dd>
+				<dt><a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/Makefile">Makefile</a></dt>
+				<dd>a Makefile for Hopper,</dd>
+				<dt>
+					<a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/job-serial">job-serial</a>,
+					<a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/job-upc">job-upc</a>
+				</dt>
+				<dd>sample batch files to launch jobs on Hopper. <tt>job-upc</tt> shows you how to check your output correctness with Unix's <tt>sort</tt> and <tt>diff</tt> tool,</dd>
+				<dt>
+					<a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/job-scale-single-node">job-scale-single-node</a>,
+					<a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/src/job-scale-multi-node">job-scale-multi-node</a>
+				</dt>
+				<dd>sample batch files for single- and multiple-node strong scaling experiments,</dd>
+				<dt><a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/kmers.tar.gz">kmers.tar.gz</a></dt>
+				<dd>all the above files in an archive,	</dd>
+				<dt><a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/hw3/test.zip">test.zip</a></dt>
+				<dd>a zipped test input file (small).</dd>
+			</dl></td>
+		</tr>
+	</tbody></table>
+	
+	You can find the large input file on Hopper at <tt>/project/projectdirs/mp309/cs267/largeinput</tt>. 
+	<br><br>
+	<div style="color:red;">
+	IMPORTANT: The large input has 51-mers instead of 19-mers in the small test input file. <br>
+	You must change the line <tt>KMER_LENGTH 		= 19 </tt> in Makefile to <tt>KMER_LENGTH 		= 51</tt> and recompile your code before running it. (And vice versa if you want to run the small test input file again.)
+	</div>
+	<hr>
+	
+	<h2>Submission</h2>
+	<p>
+	You may work in groups of 2 or 3. All the non-EECS students should be paired with EECS students. The
+	number of non-EECS students is a little less than one third of the total enrollment, so some teams will not
+	have a non-EECS student. Email <a href="mailto:cs267.spr15@gmail.com">cs267.spr15@gmail.com</a> your report and source codes. We need to
+	be able to build and execute your implementation to receive credit. It should be a zip or tar file of a directory
+	that contains both your report and your Makefile and source code. Spell out in your report what Makefile
+	target we are to build.
+	</p><p>
+	Here is the list of items you might show in your report:
+	</p>
+	<ul>
+		<li>A description of your distributed data structures and parallel algorithms</li>
+		<li>A description of the computational and "communication" motifs of the parallel algorithms.</li>
+		<li>A description of the design choices/optimizations that you tried and how did they affect the performance.</li>
+		<li>A description of how you avoided race conditions.</li>
+		<li>Speedup plots that show how closely your parallel code approaches the idealized p-times speedup in
+the two experimental scenarios described in the previous section.</li>
+		<li>Discussion of the scalability and relative costs of the parallel graph construction and traversal algorithms.</li>
+		<li>A discussion on using UPC for such an application with the underlying computational motif.</li>
+		<li>A discussion on how would you implement the same parallel algorithms in a two-sided communication model (e.g. by using MPI).</li>
+	</ul>
+	
+	<div style="color:red">
+		<a name="update"><h3>Updated on 03/31/15:</h3></a>
+		<p>
+		Your submission should be a single <b>name1_name2_name3_hw3.tar.gz</b> that, when unzipped, gives us a folder named name1_name2_name3_hw3. 
+		In this folder there should be the source files, a report file named <b>report.pdf</b>, a text file named <b>members.txt</b> containing your teammate's names, one line for each member,
+		and a bash script named <b>init.sh</b> containing commmands to initialize your preferred programming environment.
+		</p>
+		<pre>	evangelos_forrest_penporn_hw3 (a folder)
+	  |--source files 
+	  |--Makefile with make target pgen
+	  |--report.pdf
+	  |--members.txt
+	  |--init.sh
+		</pre>
+		<p>
+		Example members.txt:
+		</p>
+		<pre>	Evangelos Georganas
+	Forrest Iandola
+	Penporn Koanantakool
+		</pre>
+		<p>
+		Example init.sh for Berkeley UPC (with GNU programming environment):	
+		</p>
+		<pre>	#!/bin/bash
+	module swap PrgEnv-pgi PrgEnv-gnu
+	module load bupc
+		</pre>
+		<p>
+		Example init.sh for Cray UPC :
+		</p>
+		<pre>	#!/bin/bash
+	module swap PrgEnv-pgi PrgEnv-cray			
+		</pre>
+		<p>
+		If, for some reason, you need to configure some environment variables, feel free to do so in your init.sh. Note that your scripts are subject to check.
+		</p>
+	</div>
+	<hr>
+   
+   <h2>Bonus</h2>
+   <ul>
+      <li>Assume that the underlying de Bruijn graph consists of p connected components (p is the number of
+         processors) whose length (number of vertices) follows a power law distribution. How well does your
+         parallel code perform on this input? Can you do better (algorithmically)?</li>
+      <li>Assume that the underlying de Bruijn graph consists of a single connected component. How well does
+         your parallel code perform on this input? Can you do better (algorithmically)?</li>
+   </ul>
+   
+   <hr>
+	
+	<h2>Resources</h2>
+	<ul>
+		<li>Lecture 8 - UPC <a href="http://www.cs.berkeley.edu/~demmel/cs267_Spr15/Lectures/lecture08-PGAS-yelick.pptx">[pptx]</a><a href="http://www.cs.berkeley.edu/~demmel/cs267_Spr15/Lectures/lecture08-PGAS-yelick.pdf">[pdf]</a>,  <a href="http://upc.gwu.edu/docs/upc_specs_1.2.pdf">UPC Specification</a>,
+      <a href="http://upc.lbl.gov/">Berkeley UPC Group</a>.</li>
+		<li>
+			<a href="http://upc.gwu.edu/downloads/quick_ref04.pdf">UPC Quick Reference Card</a>,
+			<a href="https://upc-bugs.lbl.gov/~phargrov/sc10/pgas-booth-dvd/upc/docs/upc_collective_quick_reference.pdf">UPC-Collective Quick Reference</a>.
+		</li>
+		<li><a href="http://upc.lbl.gov/docs/user/">Berkeley UPC User's Guide</a></li>
+		<li><a href="http://gasnet.cs.berkeley.edu/">GASNet</a> is a high-performance network layer that supports one-sided communication in UPC.</li>
+		<li>Other PGAS languages:
+			<a href="http://x10-lang.org/">X10</a>,
+			<a href="http://titanium.cs.berkeley.edu/">Titanium</a>,
+			<a href="http://en.wikipedia.org/wiki/Coarray_Fortran">Co-Array Fortran</a>,
+			<a href="http://chapel.cs.washington.edu/">Chapel</a>.
+		</li>
+	</ul>
+	<hr> 
+		
+	<h2>References</h2>
+	<div style="padding: 0px 10px 10px 10px">
+	<a name="ref1">[1]</a> Jarrod A. Chapman, Isaac Ho, Sirisha Sunkara, Shujun Luo, Gary P. Schroth, and Daniel S. Rokhsar.
+Meraculous: De novo genome assembly with short paired-end reads. PLoS ONE, 6(8):e23501, 08 2011.
+	</div>
+	<div style="padding: 0px 10px 10px 10px">
+	<a name="ref2">[2]</a> Wikipedia. <a href="http://en.wikipedia.org/wiki/Hash_table">http://en.wikipedia.org/wiki/Hash_table.</a>
+	</div>
+
+	<hr>	
+	[ <a href="http://www.eecs.berkeley.edu/~penpornk/cs267.spr15/index.html">Back to CS267 Resource Page</a> ]
+	
+
+
+</body></html>
