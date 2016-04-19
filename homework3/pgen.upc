@@ -19,7 +19,6 @@ int main(int argc, char *argv[]){
 
 	//Copied variables
 	time_t start, end;
-	double constrTime, traversalTime;
 	char cur_contig[MAXIMUM_CONTIG_SIZE], unpackedKmer[KMER_LENGTH+1], left_ext, right_ext, *input_UFX_name;
 	int64_t posInContig, contigID = 0, totBases = 0, ptr = 0, nKmers, cur_chars_read, total_chars_to_read;
 	unpackedKmer[KMER_LENGTH] = '\0';
