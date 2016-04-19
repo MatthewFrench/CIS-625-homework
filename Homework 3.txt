@@ -14,5 +14,3 @@ sbatch job-scale-multi-node
 
 
 We don't have any upc source code written.
-
-Can look for UPC on github by searching GITHUB.
