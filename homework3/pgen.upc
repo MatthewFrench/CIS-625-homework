@@ -18,7 +18,6 @@ int main(int argc, char *argv[]){
 
 
 	//Copied variables
-	time_t start, end;
 	char cur_contig[MAXIMUM_CONTIG_SIZE], unpackedKmer[KMER_LENGTH+1], left_ext, right_ext, *input_UFX_name;
 	int64_t posInContig, contigID = 0, totBases = 0, ptr = 0, nKmers, cur_chars_read, total_chars_to_read;
 	unpackedKmer[KMER_LENGTH] = '\0';
@@ -71,7 +70,9 @@ int main(int argc, char *argv[]){
 /* Process the working_buffer and store the k-mers in the hash table */
 	/* Expected format: KMER LR ,i.e. first k characters that represent the kmer, then a tab and then two chatacers, one for the left (backward) extension and one for the right (forward) extension */
 
-	while (ptr < cur_chars_read) {
+	//Loops through each line of string data
+	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
+	//while (ptr < cur_chars_read) {
 		/* working_buffer[ptr] is the start of the current k-mer                */
 		/* so current left extension is at working_buffer[ptr+KMER_LENGTH+1]    */
 		/* and current right extension is at working_buffer[ptr+KMER_LENGTH+2]  */
@@ -88,7 +89,7 @@ int main(int argc, char *argv[]){
 		}
 
 		/* Move to the next k-mer in the input working_buffer */
-		ptr += LINE_SIZE;
+		//ptr += LINE_SIZE;
 	}
 
 

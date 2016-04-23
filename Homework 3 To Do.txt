@@ -1,0 +1,10 @@
+• Read data on thread 0. Share data to all other threads.
+INSTEAD
+Look into sharing nKmers from getNumKmersInUFX to all threads so it doesn't get done multiple times.
+Calculate the bytes that need to be read by using the kmer line length * the kmers that the thread will process. Only read in the kmers that the thread will be processing.
+
+• Sharing the kmers and start kmers between threads, we need to create a relative hashtable for the number of kmers that each thread will process. Then we need to use the UPC functions to share the data. But first we will have to convert the relative hash table to a chunk of array contiguous data that can easily be shared in one go. Then each thread needs to create a global hash table that will store all the kmers and then each thread parses each relative hash table data chunk and adds it to the global hash table.
+INSTEAD
+Have a block(array) of kmers and start kmers that we will send to every thread.
+
+• For graph traversal, only traverse the kmers for each thread. 10 kmers for 10 threads, each thread traverses 1. Create a single contiguous char array for output that will equal max write length * # of kmers to write. Add each kmer to the contiguous block of characters. After that it done, open the pgen.out file and write the contiguous block to it. For writing the data, use a UPC lock to open the file and write and close so the file doesn't get corrupted.
