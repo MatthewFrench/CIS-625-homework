@@ -79,7 +79,7 @@ int main(int argc, char *argv[]){
 	working_buffer = (unsigned char*) malloc(total_chars_to_read * sizeof(unsigned char));
 	inputFile = fopen(input_UFX_name, "r");
 
-	if (inputFile == nullptr) {
+	if (inputFile == NULL) {
 		printf("INPUT FILE IS NULL thread %d\n", MYTHREAD);
 		fflush(stdout);
 	}
