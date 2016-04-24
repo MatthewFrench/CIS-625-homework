@@ -195,11 +195,16 @@ int main(int argc, char *argv[]){
 		left_ext = (char) working_buffer[ptr+KMER_LENGTH+1];
 		right_ext = (char) working_buffer[ptr+KMER_LENGTH+2];
 
+		char left1 = left_ext;
+		char right1 = right_ext;
+
+		char left2 = kmerArray[kmerIndex].l_ext;
+		char right2 = kmerArray[kmerIndex].r_ext;
+
 		//if (myThread == 0) {
 
-			if (left_ext != kmerArray[kmerIndex].l_ext ||
-					right_ext != kmerArray[kmerIndex].r_ext) {
-				printf("kmerIndex: %d, Thread: %d, %c%c != %c%c\n", kmerIndex, myThread, left_ext, right_ext, kmerArray[kmerIndex].l_ext, kmerArray[kmerIndex].r_ext);
+			if (left1 != left2 || right1 != right2) {
+				printf("kmerIndex: %d, Thread: %d, %c%c != %c%c\n", kmerIndex, myThread, left1, right1, left2, right2);
 				fflush(stdout);
 			}
 
