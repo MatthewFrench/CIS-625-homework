@@ -107,7 +107,7 @@ int main(int argc, char *argv[]){
 		//upc_memput(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
 
-	printf("Done on thread %d\n", myThread);
+	printf("Done with text kmer code on thread %d\n", myThread);
 	fflush(stdout);
 
 	//Loops through each line of string data
@@ -132,6 +132,8 @@ int main(int argc, char *argv[]){
 		//ptr += LINE_SIZE;
 	}
 
+	printf("Done with construction on thread %d\n", myThread);
+	fflush(stdout);
 
 
 
@@ -144,6 +146,11 @@ int main(int argc, char *argv[]){
 
 	/** Graph traversal **/
 	traversalTime -= gettime();
+
+
+	printf("Starting graph traversal on thread %d\n", myThread);
+	fflush(stdout);
+
 	////////////////////////////////////////////////////////////
 	// Your code for graph traversal and output printing here //
 	// Save your output to "pgen.out"                         //
@@ -184,7 +191,8 @@ int main(int argc, char *argv[]){
 
 
 
-
+	printf("Done with graph traversal on thread %d\n", myThread);
+	fflush(stdout);
 
 
 
@@ -194,6 +202,9 @@ int main(int argc, char *argv[]){
 
 	upc_barrier;
 	traversalTime += gettime();
+
+	printf("Job finished on thread %d\n", myThread);
+	fflush(stdout);
 
 	/** Print timing and output info **/
 	/***** DO NOT CHANGE THIS PART ****/
