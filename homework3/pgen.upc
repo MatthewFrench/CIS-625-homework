@@ -187,8 +187,17 @@ int main(int argc, char *argv[]){
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
 
+		int kmerIndex = ptr / LINE_SIZE;
+		printf("kmerIndex: %d on thread %d\n", kmerIndex, myThread);
+		fflush(stdout);
+
+
 		left_ext = (char) working_buffer[ptr+KMER_LENGTH+1];
 		right_ext = (char) working_buffer[ptr+KMER_LENGTH+2];
+
+
+		printf("kmer Extension: %c%c vs %c%c on thread %d\n"kmerArray[ptr].l_ext, kmerArray[ptr].r_ext, left_ext, right_ext, kmerIndex, myThread);
+		fflush(stdout);
 
 
 		add_kmer(hashtable, &memory_heap, &working_buffer[ptr], left_ext, right_ext);
