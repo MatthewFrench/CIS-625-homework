@@ -82,7 +82,7 @@ int main(int argc, char *argv[]){
 	int startKMers = nKmers * MYTHREAD / THREADS;
 	int endKMers = nKmers * (MYTHREAD+1) / THREADS;
 
-	//shared [] float *array = upc_all_alloc(size, sizeof(float));
+	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
 
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
