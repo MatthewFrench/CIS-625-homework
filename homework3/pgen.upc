@@ -188,15 +188,15 @@ int main(int argc, char *argv[]){
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
 
 		int kmerIndex = ptr / LINE_SIZE;
-		printf("kmerIndex: %d on thread %d\n", kmerIndex, myThread);
-		fflush(stdout);
+		//printf("kmerIndex: %d on thread %d\n", kmerIndex, myThread);
+		//fflush(stdout);
 
 
 		left_ext = (char) working_buffer[ptr+KMER_LENGTH+1];
 		right_ext = (char) working_buffer[ptr+KMER_LENGTH+2];
 
 
-		printf("kmerIndex: %d, kmer Extension: %c%c vs %c%c on thread %d\n",kmerIndex,kmerArray[ptr].l_ext, kmerArray[ptr].r_ext, left_ext, right_ext, kmerIndex, myThread);
+		printf("kmerIndex: %d, kmer Extension: %c%c vs %c%c on thread %d\n",kmerIndex,kmerArray[ptr].l_ext, kmerArray[ptr].r_ext, left_ext, right_ext, myThread);
 		fflush(stdout);
 
 
