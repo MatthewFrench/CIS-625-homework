@@ -9,7 +9,7 @@
 #include "packingDNAseq.h"
 #include "kmer_hash.h"
 
-int add_kmer2(hash_table_t *hashtable, memory_heap_t *memory_heap, shared const char * packedKmer, int64_t hashval, char left_ext, char right_ext)
+int add_kmer2(hash_table_t *hashtable, memory_heap_t *memory_heap, shared [] char * packedKmer, int64_t hashval, char left_ext, char right_ext)
 {
 	int64_t pos = memory_heap->posInHeap;
 
