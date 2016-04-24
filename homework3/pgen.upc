@@ -107,7 +107,8 @@ int main(int argc, char *argv[]){
 		//upc_memput(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
 
-	printf("Done on thread %d", myThread);
+	printf("Done on thread %d\n", myThread);
+	fflush(stdout);
 
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
