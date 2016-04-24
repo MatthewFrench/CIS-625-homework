@@ -123,20 +123,20 @@ int main(int argc, char *argv[]){
 	for (ptr = 0; ptr < nKmers; ptr++) {
 		//add_kmer2(hashtable, &memory_heap, kmerArray[i].kmer, kmerArray[i].hashval, kmerArray[i].l_ext, kmerArray[i].r_ext);
 
-		int64_t pos = memory_heap->posInHeap;
+		int64_t pos = memory_heap.posInHeap;
 
 		/* Add the contents to the appropriate kmer struct in the heap */
-		upc_memget((memory_heap->heap[pos]).kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
-		(memory_heap->heap[pos]).l_ext = kmerArray[ptr].l_ext;
-		(memory_heap->heap[pos]).r_ext = kmerArray[ptr].r_ext;
+		upc_memget((memory_heap.heap[pos]).kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
+		(memory_heap.heap[pos]).l_ext = kmerArray[ptr].l_ext;
+		(memory_heap.heap[pos]).r_ext = kmerArray[ptr].r_ext;
 
 		/* Fix the next pointer to point to the appropriate kmer struct */
-		(memory_heap->heap[pos]).next = hashtable->table[kmerArray[ptr].hashval].head;
+		(memory_heap.heap[pos]).next = hashtable->table[kmerArray[ptr].hashval].head;
 		/* Fix the head pointer of the appropriate bucket to point to the current kmer */
-		hashtable->table[kmerArray[ptr].hashval].head = &(memory_heap->heap[pos]);
+		hashtable->table[kmerArray[ptr].hashval].head = &(memory_heap.heap[pos]);
 
 		/* Increase the heap pointer */
-		memory_heap->posInHeap++;
+		memory_heap.posInHeap++;
 
 		if (kmerArray[i].l_ext == 'F') {
 			addKmerToStartList(&memory_heap, &startKmersList);
