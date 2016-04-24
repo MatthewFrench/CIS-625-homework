@@ -14,3 +14,10 @@ sbatch job-scale-multi-node
 
 
 We don't have any upc source code written.
+
+
+Original
+Number of UPC threads: 3
+Input reading time: 0.089270 seconds
+Graph construction time: 0.738402 seconds
+Graph traversal time: 1.359524 seconds

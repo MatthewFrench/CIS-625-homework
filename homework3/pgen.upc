@@ -9,6 +9,13 @@
 #include "packingDNAseq.h"
 #include "kmer_hash.h"
 
+typedef struct kmerPlain_t kmerPlain_t;
+struct kmerPlain_t{
+	char kmer[KMER_PACKED_LENGTH];
+	char l_ext;
+	char r_ext;
+};
+
 
 int main(int argc, char *argv[]){
 
