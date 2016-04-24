@@ -70,6 +70,13 @@ int main(int argc, char *argv[]){
 /* Process the working_buffer and store the k-mers in the hash table */
 	/* Expected format: KMER LR ,i.e. first k characters that represent the kmer, then a tab and then two chatacers, one for the left (backward) extension and one for the right (forward) extension */
 
+	int myThread = MYTHREAD;
+	int numOfThreads = THREADS;
+	int startKMers = nKmers * MYTHREAD / THREADS;
+	int endKMers = nKmers * (MYTHREAD+1) / THREADS;
+
+	//shared [] float *array = upc_all_alloc(size, sizeof(float));
+
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
 	//while (ptr < cur_chars_read) {
