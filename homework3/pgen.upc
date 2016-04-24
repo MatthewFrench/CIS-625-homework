@@ -88,7 +88,10 @@ int main(int argc, char *argv[]){
 	cur_chars_read = fread(working_buffer, sizeof(unsigned char),total_chars_to_read , inputFile);
 	fclose(inputFile);
 
+	int start = 0;
+	int len = LINE_SIZE;
 
+	printf("Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 
 	upc_barrier;
 	inputTime += gettime();
@@ -111,7 +114,11 @@ int main(int argc, char *argv[]){
 	printf("Processing kmer text from %d to %d on thread %d\n", startKMers, endKMers, myThread);
 	fflush(stdout);
 
+
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
+
+
+
 		int index = ptr * LINE_SIZE;
 
 		left_ext = (char) working_buffer[index+KMER_LENGTH+1];
