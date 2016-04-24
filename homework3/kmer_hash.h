@@ -72,12 +72,12 @@ kmer_t* lookup_kmer(hash_table_t *hashtable, const unsigned char *kmer)
    return NULL;
 }
 
-int add_kmer2(hash_table_t *hashtable, memory_heap_t *memory_heap, char * packedKmer, int64_t hashval, char left_ext, char right_ext)
+int add_kmer2(hash_table_t *hashtable, memory_heap_t *memory_heap, shared char * packedKmer, int64_t hashval, char left_ext, char right_ext)
 {
    int64_t pos = memory_heap->posInHeap;
 
    /* Add the contents to the appropriate kmer struct in the heap */
-   memcpy((memory_heap->heap[pos]).kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
+   upc_memget((memory_heap->heap[pos]).kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
    (memory_heap->heap[pos]).l_ext = left_ext;
    (memory_heap->heap[pos]).r_ext = right_ext;
 
