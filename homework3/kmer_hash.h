@@ -8,6 +8,8 @@
 #include <string.h>
 #include "contig_generation.h"
 
+#include <upc.h>
+
 /* Creates a hash table and (pre)allocates memory for the memory heap */
 hash_table_t* create_hash_table(int64_t nEntries, memory_heap_t *memory_heap)
 {
@@ -72,7 +74,7 @@ kmer_t* lookup_kmer(hash_table_t *hashtable, const unsigned char *kmer)
    return NULL;
 }
 
-int add_kmer2(hash_table_t *hashtable, memory_heap_t *memory_heap, shared char * packedKmer, int64_t hashval, char left_ext, char right_ext)
+int add_kmer2(hash_table_t *hashtable, memory_heap_t *memory_heap, shared const char * packedKmer, int64_t hashval, char left_ext, char right_ext)
 {
    int64_t pos = memory_heap->posInHeap;
 
