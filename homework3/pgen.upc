@@ -138,7 +138,7 @@ int main(int argc, char *argv[]){
 		/* Increase the heap pointer */
 		memory_heap.posInHeap++;
 
-		if (kmerArray[i].l_ext == 'F') {
+		if (kmerArray[ptr].l_ext == 'F') {
 			addKmerToStartList(&memory_heap, &startKmersList);
 		}
 	}
