@@ -136,6 +136,8 @@ int main(int argc, char *argv[]){
 		printf("kmer %d / %d on thread %d\n", ptr, nKmers, myThread);
 		fflush(stdout);
 		int64_t pos = memory_heap.posInHeap;
+		printf("position in heap: %d on thread %d\n", pos, myThread);
+		fflush(stdout);
 		printf("1 on thread %d\n", myThread);
 		fflush(stdout);
 		upc_memget((memory_heap.heap[pos]).kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
