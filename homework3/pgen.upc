@@ -179,7 +179,7 @@ int main(int argc, char *argv[]){
 	printf("Starting graph traversal on thread %d\n", myThread);
 	fflush(stdout);
 
-	if (myThread == 0) {
+	if (MYTHREAD == 0) {
 
 		////////////////////////////////////////////////////////////
 		// Your code for graph traversal and output printing here //
