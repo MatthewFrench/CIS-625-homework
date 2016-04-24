@@ -196,7 +196,7 @@ int main(int argc, char *argv[]){
 		right_ext = (char) working_buffer[ptr+KMER_LENGTH+2];
 
 
-		printf("kmer Extension: %c%c vs %c%c on thread %d\n"kmerArray[ptr].l_ext, kmerArray[ptr].r_ext, left_ext, right_ext, kmerIndex, myThread);
+		printf("kmer Extension: %c%c vs %c%c on thread %d\n",kmerArray[ptr].l_ext, kmerArray[ptr].r_ext, left_ext, right_ext, kmerIndex, myThread);
 		fflush(stdout);
 
 
