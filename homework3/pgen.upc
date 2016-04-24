@@ -14,6 +14,7 @@ struct kmerPlain_t{
 	char kmer[KMER_PACKED_LENGTH];
 	char l_ext;
 	char r_ext;
+	int64_t hashval;
 };
 
 
@@ -83,6 +84,21 @@ int main(int argc, char *argv[]){
 	int endKMers = nKmers * (MYTHREAD+1) / THREADS;
 
 	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
+
+	for (ptr = startKMers*LINE_SIZE; ptr < endKMers * LINE_SIZE; ptr += LINE_SIZE) {
+		int index = ptr/LINE_SIZE;
+		left_ext = (char) working_buffer[ptr+KMER_LENGTH+1];
+		right_ext = (char) working_buffer[ptr+KMER_LENGTH+2];
+		char packedKmer[KMER_PACKED_LENGTH];
+		packSequence(&working_buffer[ptr], (unsigned char*) packedKmer, KMER_LENGTH);
+		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
+
+		kmerArray[index].l_ext = left_ext;
+		kmerArray[index].r_ext = right_ext;
+		kmerArray[index].hashval = hashval;
+
+		memcpy(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
+	}
 
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
