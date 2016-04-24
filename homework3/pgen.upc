@@ -85,12 +85,16 @@ int main(int argc, char *argv[]){
 
 	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
 
-	for (ptr = startKMers*LINE_SIZE; ptr < endKMers * LINE_SIZE; ptr += LINE_SIZE) {
-		int index = ptr/LINE_SIZE;
-		left_ext = (char) working_buffer[ptr+KMER_LENGTH+1];
-		right_ext = (char) working_buffer[ptr+KMER_LENGTH+2];
+	for (ptr = startKMers; ptr < endKMers; ptr++) {
+		int index = ptr * LINE_SIZE;
+
+		left_ext = (char) working_buffer[index+KMER_LENGTH+1];
+		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
+
 		char packedKmer[KMER_PACKED_LENGTH];
-		packSequence(&working_buffer[ptr], (unsigned char*) packedKmer, KMER_LENGTH);
+
+		packSequence(&working_buffer[index], (unsigned char*) packedKmer, KMER_LENGTH);
+
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
 		printf("Index: %d out of %d on thread %d\n", index, nKmers, myThread);
@@ -102,6 +106,8 @@ int main(int argc, char *argv[]){
 
 		//upc_memput(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
+
+	printf("Done on thread %d", myThread);
 
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
