@@ -143,7 +143,7 @@ int main(int argc, char *argv[]){
 		memory_heap.posInHeap++;
 
 		if (kmerArray[ptr].l_ext == 'F') {
-			printf("Added start kMer at %d on thread %d\n", ptr, myThread);
+			printf("Added start kMer at %d/%d on thread %d\n", ptr, nKmers, myThread);
 			fflush(stdout);
 
 			addKmerToStartList(&memory_heap, &startKmersList);
