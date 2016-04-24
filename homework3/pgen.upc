@@ -127,6 +127,8 @@ int main(int argc, char *argv[]){
 	printf("Looping through Kmers on thread %d\n", myThread);
 	fflush(stdout);
 
+	/*
+
 	//Add all the kmers to the hash table
 	for (ptr = 0; ptr < nKmers; ptr++) {
 		//printf("Kmer at index: %d on thread %d with left: %c right: %c\n", ptr, myThread, kmerArray[ptr].l_ext, kmerArray[ptr].r_ext);
@@ -179,9 +181,9 @@ int main(int argc, char *argv[]){
 			printf("8 on thread %d\n", myThread);
 			fflush(stdout);
 		}
-	}
+	}*/
 
-/*
+
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
 
@@ -196,7 +198,7 @@ int main(int argc, char *argv[]){
 		}
 
 	}
-*/
+
 	printf("Done with construction on thread %d\n", MYTHREAD);
 	fflush(stdout);
 
