@@ -140,20 +140,30 @@ int main(int argc, char *argv[]){
 		fflush(stdout);
 		printf("1 on thread %d\n", myThread);
 		fflush(stdout);
-		upc_memget((memory_heap.heap[pos]).kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
+
+		kmer_t *pointerOnHeap = &memory_heap.heap[pos];
+
+		upc_memget(pointerOnHeap->kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
 		printf("2 on thread %d\n", myThread);
 		fflush(stdout);
-		(memory_heap.heap[pos]).l_ext = kmerArray[ptr].l_ext;
+
+		printf("left extension %c on thread %d\n", kmerArray[ptr].l_ext, myThread);
+		fflush(stdout);
+
+		printf("Trying to set %c on thread %d\n", pointerOnHeap->l_ext, myThread);
+		fflush(stdout);
+
+		pointerOnHeap->l_ext = kmerArray[ptr].l_ext;
 		printf("3 on thread %d\n", myThread);
 		fflush(stdout);
-		(memory_heap.heap[pos]).r_ext = kmerArray[ptr].r_ext;
+		pointerOnHeap->r_ext = kmerArray[ptr].r_ext;
 		printf("4 on thread %d\n", myThread);
 		fflush(stdout);
 
-		(memory_heap.heap[pos]).next = hashtable->table[kmerArray[ptr].hashval].head;
+		pointerOnHeap->next = hashtable->table[kmerArray[ptr].hashval].head;
 		printf("5 on thread %d\n", myThread);
 		fflush(stdout);
-		hashtable->table[kmerArray[ptr].hashval].head = &(memory_heap.heap[pos]);
+		hashtable->table[kmerArray[ptr].hashval].head = pointerOnHeap;
 		printf("6 on thread %d\n", myThread);
 		fflush(stdout);
 
