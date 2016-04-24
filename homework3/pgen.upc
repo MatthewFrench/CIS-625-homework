@@ -121,7 +121,8 @@ int main(int argc, char *argv[]){
 
 	//Add all the kmers to the hash table
 	for (ptr = 0; ptr < nKmers; ptr++) {
-		printf("Kmer at index: %d on thread %d with left: %c right: %c", ptr, myThread, kmerArray[ptr].l_ext, kmerArray[ptr].r_ext);
+		printf("Kmer at index: %d on thread %d with left: %c right: %c\n", ptr, myThread, kmerArray[ptr].l_ext, kmerArray[ptr].r_ext);
+		fflush(stdout);
 
 		//add_kmer2(hashtable, &memory_heap, kmerArray[i].kmer, kmerArray[i].hashval, kmerArray[i].l_ext, kmerArray[i].r_ext);
 
