@@ -93,6 +93,8 @@ int main(int argc, char *argv[]){
 		packSequence(&working_buffer[ptr], (unsigned char*) packedKmer, KMER_LENGTH);
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
+		printf("Index: %d out of %d on thread %d", index, nKmers, myThread);
+
 		kmerArray[index].l_ext = left_ext;
 		kmerArray[index].r_ext = right_ext;
 		kmerArray[index].hashval = hashval;
