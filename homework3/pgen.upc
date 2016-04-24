@@ -119,6 +119,8 @@ int main(int argc, char *argv[]){
 	printf("Done with text kmer code on thread %d\n", myThread);
 	fflush(stdout);
 
+	upc_barrier;
+
 	//Add all the kmers to the hash table
 	for (ptr = 0; ptr < nKmers; ptr++) {
 		printf("Kmer at index: %d on thread %d with left: %c right: %c\n", ptr, myThread, kmerArray[ptr].l_ext, kmerArray[ptr].r_ext);
