@@ -200,6 +200,9 @@ int main(int argc, char *argv[]){
 			printf("kmerIndex: %d, kmer Extension: %c%c on thread %d\n", kmerIndex, left_ext, right_ext, myThread);
 			fflush(stdout);
 
+			printf("From kmer array - kmerIndex: %d, kmer Extension: %c%c on thread %d\n", kmerIndex, kmerArray[kmerIndex].l_ext, kmerArray[kmerIndex].r_ext, myThread);
+			fflush(stdout);
+
 			//printf("kmerIndex: %d, kmer Extension: %c%c vs %c%c on thread %d\n", kmerIndex, kmerArray[ptr].l_ext,
 			//	   kmerArray[ptr].r_ext, left_ext, right_ext, myThread);
 			//fflush(stdout);
