@@ -89,7 +89,7 @@ int main(int argc, char *argv[]){
 	///////////////////////////////////////////
 /* Process the working_buffer and store the k-mers in the hash table */
 	/* Expected format: KMER LR ,i.e. first k characters that represent the kmer, then a tab and then two chatacers, one for the left (backward) extension and one for the right (forward) extension */
-
+/*
 	int myThread = MYTHREAD;
 	int numOfThreads = THREADS;
 	int startKMers = nKmers * MYTHREAD / THREADS;
@@ -130,24 +130,21 @@ int main(int argc, char *argv[]){
 
 		int64_t pos = memory_heap.posInHeap;
 
-		/* Add the contents to the appropriate kmer struct in the heap */
 		upc_memget((memory_heap.heap[pos]).kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
 		(memory_heap.heap[pos]).l_ext = kmerArray[ptr].l_ext;
 		(memory_heap.heap[pos]).r_ext = kmerArray[ptr].r_ext;
 
-		/* Fix the next pointer to point to the appropriate kmer struct */
 		(memory_heap.heap[pos]).next = hashtable->table[kmerArray[ptr].hashval].head;
-		/* Fix the head pointer of the appropriate bucket to point to the current kmer */
 		hashtable->table[kmerArray[ptr].hashval].head = &(memory_heap.heap[pos]);
 
-		/* Increase the heap pointer */
 		memory_heap.posInHeap++;
 
 		if (kmerArray[ptr].l_ext == 'F') {
 			addKmerToStartList(&memory_heap, &startKmersList);
 		}
 	}
-/*
+ */
+
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
 
@@ -162,7 +159,7 @@ int main(int argc, char *argv[]){
 		}
 
 	}
-*/
+
 	printf("Done with construction on thread %d\n", myThread);
 	fflush(stdout);
 
