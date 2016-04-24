@@ -168,7 +168,7 @@ int main(int argc, char *argv[]){
 		fflush(stdout);
 
 		memory_heap.posInHeap++;
-		printf("7 on thread %d\n", myThread);
+		printf("7, new position in head: %d on thread %d\n", memory_heap.posInHeap, myThread);
 		fflush(stdout);
 
 		if (kmerArray[ptr].l_ext == 'F') {
