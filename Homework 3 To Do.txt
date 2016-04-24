@@ -10,5 +10,5 @@ Have a block(array) of kmers and start kmers that we will send to every thread.
 • For graph traversal, only traverse the kmers for each thread. 10 kmers for 10 threads, each thread traverses 1. Create a single contiguous char array for output that will equal max write length * # of kmers to write. Add each kmer to the contiguous block of characters. After that it done, open the pgen.out file and write the contiguous block to it. For writing the data, use a UPC lock to open the file and write and close so the file doesn't get corrupted.
 
 
-
+module load intel/14.0.1.106;  module load mvapich2-x/2.0.0; 
 git pull; rm *.err; rm *.out; make; sbatch job-upc; showq -u;
