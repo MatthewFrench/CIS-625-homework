@@ -97,8 +97,8 @@ int main(int argc, char *argv[]){
 
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
-		printf("Kmer: %d out of %d on thread %d\n", ptr, nKmers, myThread);
-		fflush(stdout);
+		//printf("Kmer: %d out of %d on thread %d\n", ptr, nKmers, myThread);
+		//fflush(stdout);
 
 		kmerArray[ptr].l_ext = left_ext;
 		kmerArray[ptr].r_ext = right_ext;
