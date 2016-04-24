@@ -33,6 +33,14 @@ static double gettime(void) {
    return ((double)tv.tv_sec) + tv.tv_usec/1000000.0;
 }
 
+typedef struct kmerPlain_t kmerPlain_t;
+struct kmerPlain_t{
+    char kmer[KMER_PACKED_LENGTH];
+    char l_ext;
+    char r_ext;
+    int64_t hashval;
+};
+
 /* K-mer data structure */
 typedef struct kmer_t kmer_t;
 struct kmer_t{

@@ -9,14 +9,6 @@
 #include "packingDNAseq.h"
 #include "kmer_hash.h"
 
-typedef struct kmerPlain_t kmerPlain_t;
-struct kmerPlain_t{
-	char kmer[KMER_PACKED_LENGTH];
-	char l_ext;
-	char r_ext;
-	int64_t hashval;
-};
-
 
 int main(int argc, char *argv[]){
 
@@ -97,16 +89,9 @@ int main(int argc, char *argv[]){
 
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
-		//printf("Kmer: %d out of %d on thread %d\n", ptr, nKmers, myThread);
-		//fflush(stdout);
-
 		kmerArray[ptr].l_ext = left_ext;
 		kmerArray[ptr].r_ext = right_ext;
 		kmerArray[ptr].hashval = hashval;
-
-		//for (int i = 0; i < KMER_PACKED_LENGTH; i++) {
-
-		//}
 
 		upc_memput(kmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
@@ -114,28 +99,29 @@ int main(int argc, char *argv[]){
 	printf("Done with text kmer code on thread %d\n", myThread);
 	fflush(stdout);
 
+	//Add all the kmers to the hash table
+	for (int i = 0; i < nKmers; i++) {
+		add_kmer2(hashtable, &memory_heap, kmerArray[i].kmer, kmerArray[i].hashval, kmerArray[i].l_ext, kmerArray[i].r_ext);
+		if (kmerArray[i].l_ext == 'F') {
+			addKmerToStartList(&memory_heap, &startKmersList);
+		}
+	}
+/*
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
-	//while (ptr < cur_chars_read) {
-		/* working_buffer[ptr] is the start of the current k-mer                */
-		/* so current left extension is at working_buffer[ptr+KMER_LENGTH+1]    */
-		/* and current right extension is at working_buffer[ptr+KMER_LENGTH+2]  */
 
 		left_ext = (char) working_buffer[ptr+KMER_LENGTH+1];
 		right_ext = (char) working_buffer[ptr+KMER_LENGTH+2];
 
-		/* Add k-mer to hash table */
+
 		add_kmer(hashtable, &memory_heap, &working_buffer[ptr], left_ext, right_ext);
 
-		/* Create also a list with the "start" kmers: nodes with F as left (backward) extension */
 		if (left_ext == 'F') {
 			addKmerToStartList(&memory_heap, &startKmersList);
 		}
 
-		/* Move to the next k-mer in the input working_buffer */
-		//ptr += LINE_SIZE;
 	}
-
+*/
 	printf("Done with construction on thread %d\n", myThread);
 	fflush(stdout);
 
