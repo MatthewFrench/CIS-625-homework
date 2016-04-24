@@ -93,11 +93,11 @@ int main(int argc, char *argv[]){
 		packSequence(&working_buffer[ptr], (unsigned char*) packedKmer, KMER_LENGTH);
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
-		kmerArray[index].l_ext = left_ext;
-		kmerArray[index].r_ext = right_ext;
-		kmerArray[index].hashval = hashval;
+		//kmerArray[index].l_ext = left_ext;
+		//kmerArray[index].r_ext = right_ext;
+		//kmerArray[index].hashval = hashval;
 
-		upc_memput(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
+		//upc_memput(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
 
 	//Loops through each line of string data
