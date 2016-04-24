@@ -65,7 +65,8 @@ int main(int argc, char *argv[]){
 	/* Extract the number of k-mers in the input file */
 	nKmers = getNumKmersInUFX(input_UFX_name);
 
-	printf("nKmers in thread %d: %d", nKmers, MYTHREAD);
+	printf("nKmers in thread %d: %d\n", nKmers, MYTHREAD);
+	fflush(stdout);
 
 	hash_table_t *hashtable;
 	memory_heap_t memory_heap;
