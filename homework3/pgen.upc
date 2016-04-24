@@ -97,7 +97,7 @@ int main(int argc, char *argv[]){
 		kmerArray[index].r_ext = right_ext;
 		kmerArray[index].hashval = hashval;
 
-		memcpy(&kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
+		upc_memcpy(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
 
 	//Loops through each line of string data
