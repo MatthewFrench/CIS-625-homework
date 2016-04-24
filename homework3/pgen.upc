@@ -97,6 +97,9 @@ int main(int argc, char *argv[]){
 
 	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
 
+	printf("Processing kmer text from %d to %d on thread %d\n", startKMers, endKMers, myThread);
+	fflush(stdout);
+
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
 		int index = ptr * LINE_SIZE;
 
