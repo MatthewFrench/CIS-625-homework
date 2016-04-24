@@ -100,9 +100,9 @@ int main(int argc, char *argv[]){
 		printf("Kmer: %d out of %d on thread %d\n", ptr, nKmers, myThread);
 		fflush(stdout);
 
-		kmerArray[index].l_ext = left_ext;
-		kmerArray[index].r_ext = right_ext;
-		kmerArray[index].hashval = hashval;
+		kmerArray[ptr].l_ext = left_ext;
+		kmerArray[ptr].r_ext = right_ext;
+		kmerArray[ptr].hashval = hashval;
 
 		//upc_memput(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
