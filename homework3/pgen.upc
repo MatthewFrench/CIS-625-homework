@@ -104,7 +104,7 @@ int main(int argc, char *argv[]){
 		kmerArray[ptr].r_ext = right_ext;
 		kmerArray[ptr].hashval = hashval;
 
-		//upc_memput(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
+		upc_memput(kmerArray[index].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
 
 	printf("Done with text kmer code on thread %d\n", myThread);
