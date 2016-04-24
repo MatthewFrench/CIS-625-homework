@@ -34,7 +34,7 @@
       <file leaf-file-name="pgen.upc" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pgen.upc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
+            <state relative-caret-position="345">
               <caret line="103" column="43" selection-start-line="103" selection-start-column="43" selection-end-line="103" selection-end-column="43" />
               <folding />
             </state>
@@ -656,7 +656,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pgen.upc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
+        <state relative-caret-position="345">
           <caret line="103" column="43" selection-start-line="103" selection-start-column="43" selection-end-line="103" selection-end-column="43" />
           <folding />
         </state>
