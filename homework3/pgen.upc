@@ -195,19 +195,19 @@ int main(int argc, char *argv[]){
 		left_ext = (char) working_buffer[ptr+KMER_LENGTH+1];
 		right_ext = (char) working_buffer[ptr+KMER_LENGTH+2];
 
-		if (myThread == 0) {
+		//if (myThread == 0) {
 
-			printf("kmerIndex: %d, kmer Extension: %c%c on thread %d\n", kmerIndex, left_ext, right_ext, myThread);
-			fflush(stdout);
-
-			printf("From kmer array - kmerIndex: %d, kmer Extension: %c%c on thread %d\n", kmerIndex, kmerArray[kmerIndex].l_ext, kmerArray[kmerIndex].r_ext, myThread);
-			fflush(stdout);
+			if (left_ext != kmerArray[kmerIndex].l_ext ||
+					right_ext != kmerArray[kmerIndex].r_ext) {
+				printf("kmerIndex: %d, Thread: %d, %c%c != %c%c\n", kmerIndex, myThread, left_ext, right_ext, kmerArray[kmerIndex].l_ext, kmerArray[kmerIndex].r_ext);
+				fflush(stdout);
+			}
 
 			//printf("kmerIndex: %d, kmer Extension: %c%c vs %c%c on thread %d\n", kmerIndex, kmerArray[ptr].l_ext,
 			//	   kmerArray[ptr].r_ext, left_ext, right_ext, myThread);
 			//fflush(stdout);
 
-		}
+		//}
 
 		add_kmer(hashtable, &memory_heap, &working_buffer[ptr], left_ext, right_ext);
 
