@@ -78,6 +78,13 @@ int main(int argc, char *argv[]){
 	total_chars_to_read = nKmers * LINE_SIZE;
 	working_buffer = (unsigned char*) malloc(total_chars_to_read * sizeof(unsigned char));
 	inputFile = fopen(input_UFX_name, "r");
+
+	if (inputFile == nullptr) {
+		printf("INPUT FILE IS NULL thread %d\n", MYTHREAD);
+		fflush(stdout);
+	}
+
+
 	cur_chars_read = fread(working_buffer, sizeof(unsigned char),total_chars_to_read , inputFile);
 	fclose(inputFile);
 
