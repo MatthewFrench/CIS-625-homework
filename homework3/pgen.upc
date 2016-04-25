@@ -65,6 +65,10 @@ int main(int argc, char *argv[]){
 	/* Extract the number of k-mers in the input file */
 	nKmers = getNumKmersInUFX(input_UFX_name);
 
+
+	printf("sizeof(kmerPlain_t) %d thread %d\n", sizeof(kmerPlain_t), MYTHREAD);
+	fflush(stdout);
+
 	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
 
 	upc_barrier;
