@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
 
 
 	//Copied variables
-	char cur_contig[MAXIMUM_CONTIG_SIZE], unpackedKmer[KMER_LENGTH+1], left_ext, right_ext, *input_UFX_name;
+	char unpackedKmer[KMER_LENGTH+1], left_ext, right_ext, *input_UFX_name;
 	int64_t posInContig, contigID = 0, totBases = 0, ptr = 0, cur_chars_read, total_chars_to_read;
 	//shared int64_t nKmers = upc_all_alloc(1, sizeof(int));
 	unpackedKmer[KMER_LENGTH] = '\0';
@@ -32,7 +32,11 @@ int main(int argc, char *argv[]){
 	//End copied variables
 
 
+if (MYTHREAD == 0) {
+	serialOutputFile = fopen("pgen.out", "w");
 
+	fclose(serialOutputFile);
+}
 
 
 	/** Read input **/
@@ -137,7 +141,7 @@ int main(int argc, char *argv[]){
 
 	upc_barrier;
 */
-
+int startNodes = 0;
 	//Add all the kmers to the hash table
 	for (ptr = 0; ptr < nKmers; ptr++) {
 
@@ -148,7 +152,7 @@ int main(int argc, char *argv[]){
 		add_kmer2(hashtable, &memory_heap, temp.kmer, temp.hashval, temp.l_ext, temp.r_ext);
 
 		if (kmerArray[ptr].l_ext == 'F') {
-
+			startNodes++;
 			addKmerToStartList(&memory_heap, &startKmersList);
 		}
 	}
@@ -208,51 +212,94 @@ int main(int argc, char *argv[]){
 	/** Graph traversal **/
 	traversalTime -= gettime();
 
+	//Turn the start node linked list into an array
+	kmer_t **startNodeArray = (kmer_t**)malloc(startNodes * sizeof(*kmer_t));
+	int i = 0;
+	while (curStartNode != NULL) {
+		startNodeArray[i] = curStartNode->kmerPtr;
+		curStartNode = curStartNode->next;
+	}
 
 	//printf("Starting graph traversal on thread %d\n", MYTHREAD);
 	//fflush(stdout);
 
+	int startKMers = startNodes * MYTHREAD / THREADS;
+	int endKMers = startNodes * (MYTHREAD+1) / THREADS;
+
+	char ** cur_contig2 = (char**)malloc(startNodes * sizeof(*char));
+
+	for (ptr = startKMers; ptr < endKMers; ptr++) {
+		cur_contig2[ptr] = (char*)malloc(MAXIMUM_CONTIG_SIZE * sizeof(char));
+
+		/* Need to unpack the seed first */
+		cur_kmer_ptr = curStartNode->kmerPtr;
+		unpackSequence((unsigned char *) cur_kmer_ptr->kmer, (unsigned char *) unpackedKmer, KMER_LENGTH);
+		/* Initialize current contig with the seed content */
+		memcpy(cur_contig2[ptr], unpackedKmer, KMER_LENGTH * sizeof(char));
+		posInContig = KMER_LENGTH;
+		right_ext = cur_kmer_ptr->r_ext;
+
+		/* Keep adding bases while not finding a terminal node */
+		while (right_ext != 'F') {
+			cur_contig2[ptr][posInContig] = right_ext;
+			posInContig++;
+			/* At position cur_contig[posInContig-KMER_LENGTH] starts the last k-mer in the current contig */
+			cur_kmer_ptr = lookup_kmer(hashtable, (const unsigned char *) &cur_contig2[ptr][posInContig - KMER_LENGTH]);
+			right_ext = cur_kmer_ptr->r_ext;
+		}
+
+		/* Print the contig since we have found the corresponding terminal node */
+		cur_contig2[ptr][posInContig] = '\0';
+		contigID++;
+		totBases += strlen(cur_contig2[ptr]);
+	}
+
+	upc_lock_t *l;
+	l = upc_all_lock_alloc();
+
+	upc_lock(l);
+
+	serialOutputFile = fopen("pgen.out", "a");
+
+	for (ptr = startKMers; ptr < endKMers; ptr++) {
+		fprintf(serialOutputFile, "%s\n", cur_contig2[ptr]);
+	}
+
+	fclose(serialOutputFile);
+	upc_unlock(l);
+
+	/*
+
 	if (MYTHREAD == 0) {
 
-		////////////////////////////////////////////////////////////
-		// Your code for graph traversal and output printing here //
-		// Save your output to "pgen.out"                         //
-		////////////////////////////////////////////////////////////
 		serialOutputFile = fopen("pgen.out", "w");
 
-		/* Pick start nodes from the startKmersList */
 		curStartNode = startKmersList;
 
 		while (curStartNode != NULL) {
-			/* Need to unpack the seed first */
 			cur_kmer_ptr = curStartNode->kmerPtr;
 			unpackSequence((unsigned char *) cur_kmer_ptr->kmer, (unsigned char *) unpackedKmer, KMER_LENGTH);
-			/* Initialize current contig with the seed content */
-			memcpy(cur_contig, unpackedKmer, KMER_LENGTH * sizeof(char));
+			memcpy(cur_contig2[ptr], unpackedKmer, KMER_LENGTH * sizeof(char));
 			posInContig = KMER_LENGTH;
 			right_ext = cur_kmer_ptr->r_ext;
 
-			/* Keep adding bases while not finding a terminal node */
 			while (right_ext != 'F') {
-				cur_contig[posInContig] = right_ext;
+				cur_contig2[ptr][posInContig] = right_ext;
 				posInContig++;
-				/* At position cur_contig[posInContig-KMER_LENGTH] starts the last k-mer in the current contig */
-				cur_kmer_ptr = lookup_kmer(hashtable, (const unsigned char *) &cur_contig[posInContig - KMER_LENGTH]);
+				cur_kmer_ptr = lookup_kmer(hashtable, (const unsigned char *) &cur_contig2[ptr][posInContig - KMER_LENGTH]);
 				right_ext = cur_kmer_ptr->r_ext;
 			}
 
-			/* Print the contig since we have found the corresponding terminal node */
-			cur_contig[posInContig] = '\0';
-			fprintf(serialOutputFile, "%s\n", cur_contig);
+			cur_contig2[ptr][posInContig] = '\0';
+			fprintf(serialOutputFile, "%s\n", cur_contig2[ptr]);
 			contigID++;
-			totBases += strlen(cur_contig);
-			/* Move to the next start node in the list */
+			totBases += strlen(cur_contig2[ptr]);
 			curStartNode = curStartNode->next;
 		}
 
 		fclose(serialOutputFile);
 
-	}
+	}*/
 
 	//printf("Done with graph traversal on thread %d\n", MYTHREAD);
 	//fflush(stdout);

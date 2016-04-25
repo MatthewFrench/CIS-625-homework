@@ -34,8 +34,8 @@
       <file leaf-file-name="pgen.upc" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pgen.upc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+            <state relative-caret-position="238">
+              <caret line="260" column="0" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -64,8 +64,8 @@
       <file leaf-file-name="kmer_hash.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/kmer_hash.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="27" column="12" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="12" />
+            <state relative-caret-position="164">
+              <caret line="19" column="3" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="3" />
               <folding>
                 <element signature="e#41#59#0" expanded="true" />
               </folding>
@@ -76,8 +76,8 @@
       <file leaf-file-name="contig_generation.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/contig_generation.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="96" column="4" selection-start-line="96" selection-start-column="4" selection-end-line="96" selection-end-column="4" />
+            <state relative-caret-position="248">
+              <caret line="55" column="9" selection-start-line="55" selection-start-column="3" selection-end-line="55" selection-end-column="9" />
               <folding>
                 <element signature="e#57#75#0" expanded="true" />
               </folding>
@@ -758,8 +758,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/kmer_hash.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="27" column="12" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="12" />
+        <state relative-caret-position="164">
+          <caret line="19" column="3" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="3" />
           <folding>
             <element signature="e#41#59#0" expanded="true" />
           </folding>
@@ -768,8 +768,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/contig_generation.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="96" column="4" selection-start-line="96" selection-start-column="4" selection-end-line="96" selection-end-column="4" />
+        <state relative-caret-position="248">
+          <caret line="55" column="9" selection-start-line="55" selection-start-column="3" selection-end-line="55" selection-end-column="9" />
           <folding>
             <element signature="e#57#75#0" expanded="true" />
           </folding>
@@ -778,8 +778,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pgen.upc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+        <state relative-caret-position="238">
+          <caret line="260" column="0" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
           <folding />
         </state>
       </provider>
