@@ -123,7 +123,10 @@ int main(int argc, char *argv[]){
 
 		char packedKmer[KMER_PACKED_LENGTH];
 
-		packSequence(&working_buffer[index], (unsigned char*) packedKmer, KMER_LENGTH);
+		char sequence[KMER_LENGTH];
+		memcpy(sequence, working_buffer, KMER_LENGTH);
+
+		packSequence((unsigned char*)&sequence, (unsigned char*) packedKmer, KMER_LENGTH);
 
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
