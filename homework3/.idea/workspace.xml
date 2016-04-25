@@ -35,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/pgen.upc">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="328">
-              <caret line="182" column="27" selection-start-line="182" selection-start-column="27" selection-end-line="182" selection-end-column="27" />
+              <caret line="182" column="27" selection-start-line="182" selection-start-column="12" selection-end-line="182" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -779,7 +779,7 @@
     <entry file="file://$PROJECT_DIR$/pgen.upc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="328">
-          <caret line="182" column="27" selection-start-line="182" selection-start-column="27" selection-end-line="182" selection-end-column="27" />
+          <caret line="182" column="27" selection-start-line="182" selection-start-column="12" selection-end-line="182" selection-end-column="27" />
           <folding />
         </state>
       </provider>
