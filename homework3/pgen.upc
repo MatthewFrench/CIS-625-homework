@@ -146,9 +146,9 @@ int main(int argc, char *argv[]){
 			printf("2.2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
-/*
+
 		packSequence((unsigned char*)&sequence, (unsigned char*) packedKmer, KMER_LENGTH);
-*/
+
 		if (ptr == endKMers-1) {
 			printf("2.3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
