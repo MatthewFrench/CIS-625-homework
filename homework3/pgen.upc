@@ -107,7 +107,7 @@ int main(int argc, char *argv[]){
 
 		upc_memput( (shared void *) (kmerArray+ptr),  &temp, sizeof(kmerPlain_t));
 	}
-
+/*
 	//Now for private kmer reads
 	for (ptr = 0; ptr < nKmers; ptr++) {
 		int index = ptr * LINE_SIZE;
@@ -129,7 +129,7 @@ int main(int argc, char *argv[]){
 	}
 
 	upc_barrier;
-
+*/
 
 	//Add all the kmers to the hash table
 	for (ptr = 0; ptr < nKmers; ptr++) {
