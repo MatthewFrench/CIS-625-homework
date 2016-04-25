@@ -241,7 +241,7 @@ int startNodes = 0;
 		fflush(stdout);
 
 		/* Need to unpack the seed first */
-		cur_kmer_ptr = curStartNode->kmerPtr;
+		cur_kmer_ptr = startNodeArray[ptr];
 
 		printf("2.15 on thread %d\n", MYTHREAD);
 		fflush(stdout);
