@@ -184,9 +184,10 @@ int main(int argc, char *argv[]){
 		temp.hashval = hashval;
 		temp.r_ext = right_ext;
 
+		memcpy(temp.kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
+
 		upc_memput( kmerArray[ptr],  &temp, sizeof(kmerPlain_t));
 
-		//kmerArray[ptr] = temp;
 
 		if (ptr == endKMers-1) {
 			printf("2.5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
