@@ -136,7 +136,9 @@ int main(int argc, char *argv[]){
 
 		int index = ptr * LINE_SIZE;
 
-		add_kmer2(hashtable, &memory_heap, kmerArray[ptr].kmer, kmerArray[ptr].hashval, kmerArray[ptr].l_ext, kmerArray[ptr].r_ext);
+		kmerPlain_t temp = kmerArray[ptr];
+
+		add_kmer2(hashtable, &memory_heap, temp.kmer, temp.hashval, temp.l_ext, temp.r_ext);
 
 		if (kmerArray[ptr].l_ext == 'F') {
 
