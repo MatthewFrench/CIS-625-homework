@@ -88,7 +88,14 @@ int main(int argc, char *argv[]){
 
 
 	cur_chars_read = fread(working_buffer, sizeof(unsigned char),total_chars_to_read , inputFile);
+
+	printf("Current chars read: %d vs total chars to read %d, thread %d\n", cur_chars_read, total_chars_to_read, MYTHREAD);
+	fflush(stdout);
+
 	fclose(inputFile);
+
+	unsigned char *working_buffer2 = (unsigned char*) malloc(total_chars_to_read * sizeof(unsigned char));
+	memcpy(working_buffer2, working_buffer, total_chars_to_read);
 
 	int start = 0;
 	int len = LINE_SIZE;
@@ -121,50 +128,50 @@ int main(int argc, char *argv[]){
 
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
 		int index = ptr * LINE_SIZE;
-
+/*
 		left_ext = (char) working_buffer[index+KMER_LENGTH+1];
 		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
-
+*/
 		if (ptr == endKMers-1) {
 			printf("2.1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
-
+/*
 		char packedKmer[KMER_PACKED_LENGTH];
 
 		char sequence[KMER_LENGTH];
 		memcpy(sequence, working_buffer, KMER_LENGTH);
-
+*/
 		if (ptr == endKMers-1) {
 			printf("2.2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
-
+/*
 		packSequence((unsigned char*)&sequence, (unsigned char*) packedKmer, KMER_LENGTH);
-
+*/
 		if (ptr == endKMers-1) {
 			printf("2.3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
-
+/*
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
-
+*/
 		if (ptr == endKMers-1) {
 			printf("2.4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
-
+/*
 		kmerArray[ptr].l_ext = left_ext;
 		kmerArray[ptr].r_ext = right_ext;
 		kmerArray[ptr].hashval = hashval;
-
+*/
 		if (ptr == endKMers-1) {
 			printf("2.5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
-
+/*
 		upc_memput(kmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
-
+*/
 		if (ptr == endKMers-1) {
 			printf("2.6Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
@@ -172,6 +179,9 @@ int main(int argc, char *argv[]){
 	}
 
 	printf("3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	fflush(stdout);
+
+	printf("3.5Reading from second buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer2 + start);
 	fflush(stdout);
 
 	printf("Done with text kmer code on thread %d\n", myThread);
