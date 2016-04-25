@@ -91,7 +91,7 @@ int main(int argc, char *argv[]){
 	int start = 0;
 	int len = LINE_SIZE;
 
-	printf("Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 
 	upc_barrier;
 	inputTime += gettime();
@@ -114,7 +114,7 @@ int main(int argc, char *argv[]){
 	printf("Processing kmer text from %d to %d on thread %d\n", startKMers, endKMers, myThread);
 	fflush(stdout);
 
-	printf("Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
 		int index = ptr * LINE_SIZE;
@@ -138,12 +138,12 @@ int main(int argc, char *argv[]){
 		upc_memput(kmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
 
-	printf("Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 
 	printf("Done with text kmer code on thread %d\n", myThread);
 	fflush(stdout);
 
-	printf("Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 
 	upc_barrier;
 
@@ -151,7 +151,7 @@ int main(int argc, char *argv[]){
 	fflush(stdout);
 
 
-	printf("Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 	/*
 
 	//Add all the kmers to the hash table
