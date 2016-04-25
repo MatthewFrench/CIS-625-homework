@@ -163,6 +163,26 @@ int main(int argc, char *argv[]){
 	//Add all the kmers to the hash table
 	for (ptr = 0; ptr < nKmers; ptr++) {
 
+		int index = ptr * LINE_SIZE;
+
+		left_ext = (char) working_buffer[index+KMER_LENGTH+1];
+		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
+
+		if (privateKmerArray[ptr].l_ext != left_ext || privateKmerArray[ptr].r_ext != right_ext) {
+			printf("ERROR WRONG EXTENSIONS\n");
+			fflush(stdout);
+		}
+
+
+		char packedKmer[KMER_PACKED_LENGTH];
+		packSequence(&working_buffer[index], (unsigned char*) packedKmer, KMER_LENGTH);
+		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
+
+		if (hashval != privateKmerArray[ptr].hashval) {
+			printf("ERROR WRONG HASH\n");
+			fflush(stdout);
+		}
+
 		add_kmerPrepared(hashtable, &memory_heap, privateKmerArray[ptr].kmer, privateKmerArray[ptr].hashval, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
 
 		if (kmerArray[ptr].l_ext == 'F') {
