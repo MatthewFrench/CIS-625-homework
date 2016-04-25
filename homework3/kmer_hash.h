@@ -93,9 +93,8 @@ int add_kmerPrepared(hash_table_t *hashtable, memory_heap_t *memory_heap, const 
    return 0;
 }
 
-int add_kmer2(hash_table_t *hashtable, memory_heap_t *memory_heap, char *packedKmer, char left_ext, char right_ext)
+int add_kmer2(hash_table_t *hashtable, memory_heap_t *memory_heap, char *packedKmer, int64_t hashval, char left_ext, char right_ext)
 {
-   int64_t hashval = hashkmer(hashtable->size, packedKmer);
    int64_t pos = memory_heap->posInHeap;
 
    /* Add the contents to the appropriate kmer struct in the heap */

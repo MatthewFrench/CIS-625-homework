@@ -163,7 +163,7 @@ int main(int argc, char *argv[]){
 		//}
 
 
-		add_kmer2(hashtable, &memory_heap, packedKmer, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
+		add_kmer2(hashtable, &memory_heap, packedKmer, hashval, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
 		//add_kmerPrepared(hashtable, &memory_heap, privateKmerArray[ptr].kmer, hashval, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
 
 		if (kmerArray[ptr].l_ext == 'F') {
