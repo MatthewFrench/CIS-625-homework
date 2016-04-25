@@ -65,6 +65,8 @@ int main(int argc, char *argv[]){
 	/* Extract the number of k-mers in the input file */
 	nKmers = getNumKmersInUFX(input_UFX_name);
 
+	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
+
 	printf("nKmers in thread %d: %d\n", nKmers, MYTHREAD);
 	fflush(stdout);
 
@@ -109,7 +111,7 @@ int main(int argc, char *argv[]){
 	int startKMers = nKmers * MYTHREAD / THREADS;
 	int endKMers = nKmers * (MYTHREAD+1) / THREADS;
 
-	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
+
 
 	printf("Processing kmer text from %d to %d on thread %d\n", startKMers, endKMers, myThread);
 	fflush(stdout);
