@@ -120,11 +120,7 @@ int main(int argc, char *argv[]){
 		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
 
 		char packedKmer[KMER_PACKED_LENGTH];
-
-		char sequence[KMER_LENGTH];
-		memcpy(sequence, working_buffer, KMER_LENGTH);
-		packSequence((unsigned char*)&sequence, (unsigned char*) packedKmer, KMER_LENGTH);
-
+		packSequence(&working_buffer[index], (unsigned char*) packedKmer, KMER_LENGTH);
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
 		privateKmerArray[ptr].l_ext = left_ext;
@@ -144,18 +140,18 @@ int main(int argc, char *argv[]){
 
 		int index = ptr * LINE_SIZE;
 
-		left_ext = (char) working_buffer[index+KMER_LENGTH+1];
-		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
+		//left_ext = (char) working_buffer[index+KMER_LENGTH+1];
+		//right_ext = (char) working_buffer[index+KMER_LENGTH+2];
 
-		if (privateKmerArray[ptr].l_ext != left_ext || privateKmerArray[ptr].r_ext != right_ext) {
-			printf("ERROR WRONG EXTENSIONS\n");
-			fflush(stdout);
-		}
+		//if (privateKmerArray[ptr].l_ext != left_ext || privateKmerArray[ptr].r_ext != right_ext) {
+		//	printf("ERROR WRONG EXTENSIONS\n");
+		//	fflush(stdout);
+		//}
 
 
-		char packedKmer[KMER_PACKED_LENGTH];
-		packSequence(&working_buffer[index], (unsigned char*) packedKmer, KMER_LENGTH);
-		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
+		//char packedKmer[KMER_PACKED_LENGTH];
+		//packSequence(&working_buffer[index], (unsigned char*) packedKmer, KMER_LENGTH);
+		//int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
 		//if (hashval != privateKmerArray[ptr].hashval) {
 		//	printf("ERROR WRONG HASH\n");
@@ -163,7 +159,7 @@ int main(int argc, char *argv[]){
 		//}
 
 
-		add_kmer2(hashtable, &memory_heap, packedKmer, hashval, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
+		add_kmer2(hashtable, &memory_heap, privateKmerArray[ptr].kmer, privateKmerArray[ptr].hashval, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
 		//add_kmerPrepared(hashtable, &memory_heap, privateKmerArray[ptr].kmer, hashval, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
 
 		if (kmerArray[ptr].l_ext == 'F') {
