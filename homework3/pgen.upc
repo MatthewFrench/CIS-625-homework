@@ -66,11 +66,11 @@ int main(int argc, char *argv[]){
 	nKmers = getNumKmersInUFX(input_UFX_name);
 
 
-	//printf("sizeof(kmerPlain_t) %d thread %d\n", sizeof(kmerPlain_t), MYTHREAD);
+	printf("sizeof(kmerPlain_t) %d thread %d\n", sizeof(kmerPlain_t), MYTHREAD);
 	fflush(stdout);
 
 
-	//printf("size vs %d thread %d\n", sizeof(char)*(2+KMER_PACKED_LENGTH) + sizeof(int64_t), MYTHREAD);
+	printf("size vs %d thread %d\n", sizeof(char)*(2+KMER_PACKED_LENGTH) + sizeof(int64_t), MYTHREAD);
 	fflush(stdout);
 	/*
 	 * struct kmerPlain_t{
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]){
 
 	upc_barrier;
 
-	//printf("nKmers in thread %d: %d\n", nKmers, MYTHREAD);
+	printf("nKmers in thread %d: %d\n", nKmers, MYTHREAD);
 	fflush(stdout);
 
 	hash_table_t *hashtable;
@@ -100,14 +100,14 @@ int main(int argc, char *argv[]){
 	inputFile = fopen(input_UFX_name, "r");
 
 	if (inputFile == NULL) {
-		//printf("INPUT FILE IS NULL thread %d\n", MYTHREAD);
+		printf("INPUT FILE IS NULL thread %d\n", MYTHREAD);
 		fflush(stdout);
 	}
 
 
 	cur_chars_read = fread(working_buffer, sizeof(unsigned char),total_chars_to_read , inputFile);
 
-	//printf("Current chars read: %d vs total chars to read %d, thread %d\n", cur_chars_read, total_chars_to_read, MYTHREAD);
+	printf("Current chars read: %d vs total chars to read %d, thread %d\n", cur_chars_read, total_chars_to_read, MYTHREAD);
 	fflush(stdout);
 
 	fclose(inputFile);
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]){
 	int start = 0;
 	int len = LINE_SIZE;
 
-	//printf("1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 
 	upc_barrier;
 	inputTime += gettime();
@@ -138,10 +138,10 @@ int main(int argc, char *argv[]){
 
 
 
-	//printf("Processing kmer text from %d to %d on thread %d\n", startKMers, endKMers, myThread);
+	printf("Processing kmer text from %d to %d on thread %d\n", startKMers, endKMers, myThread);
 	fflush(stdout);
 
-	//printf("2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 	fflush(stdout);
 
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
@@ -151,7 +151,7 @@ int main(int argc, char *argv[]){
 		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
 
 		if (ptr == endKMers-1) {
-			//printf("2.1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+			printf("2.1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
 
@@ -161,21 +161,21 @@ int main(int argc, char *argv[]){
 		memcpy(sequence, working_buffer, KMER_LENGTH);
 
 		if (ptr == endKMers-1) {
-			//printf("2.2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+			printf("2.2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
 
 		packSequence((unsigned char*)&sequence, (unsigned char*) packedKmer, KMER_LENGTH);
 
 		if (ptr == endKMers-1) {
-			//printf("2.3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+			printf("2.3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
 
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
 		if (ptr == endKMers-1) {
-			//printf("2.4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+			printf("2.4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
 
@@ -186,104 +186,104 @@ int main(int argc, char *argv[]){
 
 		memcpy(temp.kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 
-		upc_memput( kmerArray[ptr],  &temp, sizeof(kmerPlain_t));
+		upc_memput( (shared void *) kmerArray[ptr],  &temp, sizeof(kmerPlain_t));
 
 
 		if (ptr == endKMers-1) {
-			//printf("2.5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+			printf("2.5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
 /*
 		upc_memput(kmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 */
 		if (ptr == endKMers-1) {
-			//printf("2.6Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+			printf("2.6Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
 	}
 
-	//printf("3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 	fflush(stdout);
 
-	////printf("3.5Reading from second buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer2 + start);
+	//printf("3.5Reading from second buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer2 + start);
 	//fflush(stdout);
 
-	//printf("Done with text kmer code on thread %d\n", myThread);
+	printf("Done with text kmer code on thread %d\n", myThread);
 	fflush(stdout);
 
-	//printf("4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 	fflush(stdout);
 
 	upc_barrier;
 
-	//printf("Looping through Kmers on thread %d\n", myThread);
+	printf("Looping through Kmers on thread %d\n", myThread);
 	fflush(stdout);
 
 
-	//printf("5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+	printf("5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 	fflush(stdout);
-
+	/*
 
 	//Add all the kmers to the hash table
 	for (ptr = 0; ptr < nKmers; ptr++) {
-		////printf("Kmer at index: %d on thread %d with left: %c right: %c\n", ptr, myThread, kmerArray[ptr].l_ext, kmerArray[ptr].r_ext);
+		//printf("Kmer at index: %d on thread %d with left: %c right: %c\n", ptr, myThread, kmerArray[ptr].l_ext, kmerArray[ptr].r_ext);
 		//fflush(stdout);
 
 		//add_kmer2(hashtable, &memory_heap, kmerArray[i].kmer, kmerArray[i].hashval, kmerArray[i].l_ext, kmerArray[i].r_ext);
-		//printf("kmer %d / %d on thread %d\n", ptr, nKmers, myThread);
+		printf("kmer %d / %d on thread %d\n", ptr, nKmers, myThread);
 		fflush(stdout);
 		int64_t pos = memory_heap.posInHeap;
-		//printf("position in heap: %d on thread %d\n", pos, myThread);
+		printf("position in heap: %d on thread %d\n", pos, myThread);
 		fflush(stdout);
-		//printf("1 on thread %d\n", myThread);
+		printf("1 on thread %d\n", myThread);
 		fflush(stdout);
 
 		kmer_t *pointerOnHeap = &memory_heap.heap[pos];
 
 		upc_memget(pointerOnHeap->kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
-		//printf("2 on thread %d\n", myThread);
+		printf("2 on thread %d\n", myThread);
 		fflush(stdout);
 
-		//printf("left extension %c on thread %d\n", kmerArray[ptr].l_ext, myThread);
+		printf("left extension %c on thread %d\n", kmerArray[ptr].l_ext, myThread);
 		fflush(stdout);
 
-		//printf("Trying to set %c on thread %d\n", pointerOnHeap->l_ext, myThread);
+		printf("Trying to set %c on thread %d\n", pointerOnHeap->l_ext, myThread);
 		fflush(stdout);
 
 		pointerOnHeap->l_ext = kmerArray[ptr].l_ext;
-		//printf("3 on thread %d\n", myThread);
+		printf("3 on thread %d\n", myThread);
 		fflush(stdout);
 		pointerOnHeap->r_ext = kmerArray[ptr].r_ext;
-		//printf("4 on thread %d\n", myThread);
+		printf("4 on thread %d\n", myThread);
 		fflush(stdout);
 
 		pointerOnHeap->next = hashtable->table[kmerArray[ptr].hashval].head;
-		//printf("5 on thread %d\n", myThread);
+		printf("5 on thread %d\n", myThread);
 		fflush(stdout);
 		hashtable->table[kmerArray[ptr].hashval].head = pointerOnHeap;
-		//printf("6 on thread %d\n", myThread);
+		printf("6 on thread %d\n", myThread);
 		fflush(stdout);
 
 		memory_heap.posInHeap++;
-		//printf("7, new position in head: %d on thread %d\n", memory_heap.posInHeap, myThread);
+		printf("7, new position in head: %d on thread %d\n", memory_heap.posInHeap, myThread);
 		fflush(stdout);
 
 		if (kmerArray[ptr].l_ext == 'F') {
-			//printf("Added start kMer at %d/%d on thread %d\n", ptr, nKmers, myThread);
+			printf("Added start kMer at %d/%d on thread %d\n", ptr, nKmers, myThread);
 			fflush(stdout);
 
 			addKmerToStartList(&memory_heap, &startKmersList);
-			//printf("8 on thread %d\n", myThread);
+			printf("8 on thread %d\n", myThread);
 			fflush(stdout);
 		}
-	}
+	}*/
 
-/*
+
 	//Loops through each line of string data
 	for (ptr = 0; ptr < cur_chars_read; ptr += LINE_SIZE) {
 
 		int kmerIndex = ptr / LINE_SIZE;
-		////printf("kmerIndex: %d on thread %d\n", kmerIndex, myThread);
+		//printf("kmerIndex: %d on thread %d\n", kmerIndex, myThread);
 		//fflush(stdout);
 
 
@@ -301,10 +301,10 @@ int main(int argc, char *argv[]){
 			if (left1 != left2 || right1 != right2) {
 				//printf("kmerIndex: %d, Thread: %d, %c%c != %c%c\n", kmerIndex, myThread, left1, right1, left2, right2);
 				//printf("Reading from buffer on thread %d at kmer: %d:  %.*s\n", MYTHREAD, kmerIndex, LINE_SIZE, working_buffer + ptr);
-				fflush(stdout);
+				//fflush(stdout);
 			}
 
-			////printf("kmerIndex: %d, kmer Extension: %c%c vs %c%c on thread %d\n", kmerIndex, kmerArray[ptr].l_ext,
+			//printf("kmerIndex: %d, kmer Extension: %c%c vs %c%c on thread %d\n", kmerIndex, kmerArray[ptr].l_ext,
 			//	   kmerArray[ptr].r_ext, left_ext, right_ext, myThread);
 			//fflush(stdout);
 
@@ -318,8 +318,7 @@ int main(int argc, char *argv[]){
 
 	}
 
- */
-	//printf("Done with construction on thread %d\n", MYTHREAD);
+	printf("Done with construction on thread %d\n", MYTHREAD);
 	fflush(stdout);
 
 
@@ -335,7 +334,7 @@ int main(int argc, char *argv[]){
 	traversalTime -= gettime();
 
 
-	//printf("Starting graph traversal on thread %d\n", MYTHREAD);
+	printf("Starting graph traversal on thread %d\n", MYTHREAD);
 	fflush(stdout);
 
 	if (MYTHREAD == 0) {
@@ -369,7 +368,7 @@ int main(int argc, char *argv[]){
 
 			/* Print the contig since we have found the corresponding terminal node */
 			cur_contig[posInContig] = '\0';
-			f//printf(serialOutputFile, "%s\n", cur_contig);
+			fprintf(serialOutputFile, "%s\n", cur_contig);
 			contigID++;
 			totBases += strlen(cur_contig);
 			/* Move to the next start node in the list */
@@ -380,7 +379,7 @@ int main(int argc, char *argv[]){
 
 	}
 
-	//printf("Done with graph traversal on thread %d\n", MYTHREAD);
+	printf("Done with graph traversal on thread %d\n", MYTHREAD);
 	fflush(stdout);
 
 
