@@ -162,22 +162,8 @@ int main(int argc, char *argv[]){
 
 	//Add all the kmers to the hash table
 	for (ptr = 0; ptr < nKmers; ptr++) {
-		int64_t pos = memory_heap.posInHeap;
 
-		kmer_t *pointerOnHeap = &memory_heap.heap[pos];
-
-		kmerPlain_t temp = privateKmerArray[ptr];
-		//upc_memget( &temp,  (shared void *) (kmerArray+ptr), sizeof(kmerPlain_t));
-
-		memcpy(pointerOnHeap->kmer, temp.kmer, KMER_PACKED_LENGTH * sizeof(char));
-
-		pointerOnHeap->l_ext = kmerArray[ptr].l_ext;
-		pointerOnHeap->r_ext = kmerArray[ptr].r_ext;
-
-		pointerOnHeap->next = hashtable->table[kmerArray[ptr].hashval].head;
-		hashtable->table[kmerArray[ptr].hashval].head = pointerOnHeap;
-
-		memory_heap.posInHeap++;
+		add_kmerPrepared(hashtable, &memory_heap, privateKmerArray[ptr].kmer, privateKmerArray[ptr].hashval, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
 
 		if (kmerArray[ptr].l_ext == 'F') {
 
