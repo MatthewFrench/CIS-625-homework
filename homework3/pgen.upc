@@ -234,50 +234,40 @@ int startNodes = 0;
 	printf("2 on thread %d\n", MYTHREAD);
 	fflush(stdout);
 
-	for (ptr = startKMers; ptr < endKMers; ptr++) {
-		cur_contig2[ptr] = (char*)malloc(MAXIMUM_CONTIG_SIZE * sizeof(char));
 
-		printf("2.1: %d on thread %d\n", ptr, MYTHREAD);
-		fflush(stdout);
+	curStartNode = startKmersList;
 
-		/* Need to unpack the seed first */
-		cur_kmer_ptr = startNodeArray[ptr];
+	i = 0;
+	while (curStartNode != NULL) {
+		if (i >= startKMers || i < endKMers) {
+			cur_contig2[ptr] = (char*)malloc(MAXIMUM_CONTIG_SIZE * sizeof(char));
 
-		printf("2.15 on thread %d\n", MYTHREAD);
-		fflush(stdout);
-
-		unpackSequence((unsigned char *) cur_kmer_ptr->kmer, (unsigned char *) unpackedKmer, KMER_LENGTH);
-
-		printf("2.2 on thread %d\n", MYTHREAD);
-		fflush(stdout);
-
-		/* Initialize current contig with the seed content */
-		memcpy(cur_contig2[ptr], unpackedKmer, KMER_LENGTH * sizeof(char));
-		posInContig = KMER_LENGTH;
-		right_ext = cur_kmer_ptr->r_ext;
-
-		printf("2.3 on thread %d\n", MYTHREAD);
-		fflush(stdout);
-
-		/* Keep adding bases while not finding a terminal node */
-		while (right_ext != 'F') {
-			cur_contig2[ptr][posInContig] = right_ext;
-			posInContig++;
-			/* At position cur_contig[posInContig-KMER_LENGTH] starts the last k-mer in the current contig */
-			cur_kmer_ptr = lookup_kmer(hashtable, (const unsigned char *) &cur_contig2[ptr][posInContig - KMER_LENGTH]);
+			/* Need to unpack the seed first */
+			cur_kmer_ptr = curStartNode->kmerPtr;
+			unpackSequence((unsigned char *) cur_kmer_ptr->kmer, (unsigned char *) unpackedKmer, KMER_LENGTH);
+			/* Initialize current contig with the seed content */
+			memcpy(cur_contig2[ptr], unpackedKmer, KMER_LENGTH * sizeof(char));
+			posInContig = KMER_LENGTH;
 			right_ext = cur_kmer_ptr->r_ext;
+
+			/* Keep adding bases while not finding a terminal node */
+			while (right_ext != 'F') {
+				cur_contig2[ptr][posInContig] = right_ext;
+				posInContig++;
+				/* At position cur_contig[posInContig-KMER_LENGTH] starts the last k-mer in the current contig */
+				cur_kmer_ptr = lookup_kmer(hashtable,
+										   (const unsigned char *) &cur_contig2[ptr][posInContig - KMER_LENGTH]);
+				right_ext = cur_kmer_ptr->r_ext;
+			}
+
+			cur_contig2[ptr][posInContig] = '\0';
+			fprintf(serialOutputFile, "%s\n", cur_contig2[ptr]);
+			contigID++;
+			totBases += strlen(cur_contig2[ptr]);
 		}
 
-		printf("2.4 on thread %d\n", MYTHREAD);
-		fflush(stdout);
-
-		/* Print the contig since we have found the corresponding terminal node */
-		cur_contig2[ptr][posInContig] = '\0';
-		contigID++;
-		totBases += strlen(cur_contig2[ptr]);
-
-		printf("2.5 on thread %d\n", MYTHREAD);
-		fflush(stdout);
+		curStartNode = curStartNode->next;
+		i++;
 	}
 
 	printf("3 on thread %d\n", MYTHREAD);
