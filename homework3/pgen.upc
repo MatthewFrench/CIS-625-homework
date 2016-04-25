@@ -122,20 +122,32 @@ int main(int argc, char *argv[]){
 		left_ext = (char) working_buffer[index+KMER_LENGTH+1];
 		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
 
+		printf("2.1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+
 		char packedKmer[KMER_PACKED_LENGTH];
 
 		char sequence[KMER_LENGTH];
 		memcpy(sequence, working_buffer, KMER_LENGTH);
 
+		printf("2.2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+
 		packSequence((unsigned char*)&sequence, (unsigned char*) packedKmer, KMER_LENGTH);
 
+		printf("2.3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
+
+		printf("2.4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 
 		kmerArray[ptr].l_ext = left_ext;
 		kmerArray[ptr].r_ext = right_ext;
 		kmerArray[ptr].hashval = hashval;
 
+		printf("2.5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
+
 		upc_memput(kmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
+
+		printf("2.6Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 	}
 
 	printf("3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
