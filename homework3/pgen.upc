@@ -69,6 +69,18 @@ int main(int argc, char *argv[]){
 	printf("sizeof(kmerPlain_t) %d thread %d\n", sizeof(kmerPlain_t), MYTHREAD);
 	fflush(stdout);
 
+
+	printf("size vs %d thread %d\n", sizeof(char)*(2+KMER_PACKED_LENGTH) + sizeof(int64_t), MYTHREAD);
+	fflush(stdout);
+	/*
+	 * struct kmerPlain_t{
+    char kmer[KMER_PACKED_LENGTH];
+    char l_ext;
+    char r_ext;
+    int64_t hashval;
+};
+	 */
+
 	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
 
 	upc_barrier;
