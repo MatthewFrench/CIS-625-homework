@@ -184,7 +184,7 @@ int main(int argc, char *argv[]){
 		temp.hashval = hashval;
 		temp.r_ext = right_ext;
 
-		kmerArray[ptr] = temp;
+		//kmerArray[ptr] = temp;
 
 		if (ptr == endKMers-1) {
 			printf("2.5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
