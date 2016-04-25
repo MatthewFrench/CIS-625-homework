@@ -117,7 +117,7 @@ if (MYTHREAD == 0) {
 		//upc_memput( (shared void *) (kmerArray+ptr),  &privateKmerArray[ptr], sizeof(kmerPlain_t));
 	}
 	printf("Saving bytes %d\n", sizeof(kmerPlain_t)*(endKMers-startKMers));
-	upc_memput( (shared void *) (kmerArray+startKMers),  &privateKmerArray[startKMers], sizeof(kmerPlain_t)*(endKMers-startKMers));
+	upc_memput( &kmerArray[startKMers]),  &privateKmerArray[startKMers], sizeof(kmerPlain_t)*(endKMers-startKMers));
 	//upc_memput( (shared void *) (kmerArray+startKMers*sizeof(kmerPlain_t)), &privateKmerArray[startKMers], sizeof(kmerPlain_t) * (endKMers-startKMers));
 /*
 	//Now for private kmer reads
