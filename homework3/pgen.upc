@@ -179,9 +179,12 @@ int main(int argc, char *argv[]){
 			fflush(stdout);
 		}
 
-		kmerArray[ptr].l_ext = left_ext;
-		kmerArray[ptr].r_ext = right_ext;
-		kmerArray[ptr].hashval = hashval;
+		kmerPlain_t temp;
+		temp.l_ext = left_ext;
+		temp.hashval = hashval;
+		temp.r_ext = right_ext;
+
+		kmerArray[ptr] = temp;
 
 		if (ptr == endKMers-1) {
 			printf("2.5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
