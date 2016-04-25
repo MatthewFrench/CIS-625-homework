@@ -242,6 +242,10 @@ int startNodes = 0;
 
 		/* Need to unpack the seed first */
 		cur_kmer_ptr = curStartNode->kmerPtr;
+
+		printf("2.15 on thread %d\n", MYTHREAD);
+		fflush(stdout);
+
 		unpackSequence((unsigned char *) cur_kmer_ptr->kmer, (unsigned char *) unpackedKmer, KMER_LENGTH);
 
 		printf("2.2 on thread %d\n", MYTHREAD);
