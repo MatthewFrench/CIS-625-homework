@@ -230,7 +230,7 @@ int startNodes = 0;
 
 	ptr = 0;
 	while (curStartNode != NULL) {
-		if (ptr >= startKMers || ptr < endKMers) {
+		if (ptr >= startKMers && ptr < endKMers) {
 
 			cur_contig2[ptr] = (char*)malloc(MAXIMUM_CONTIG_SIZE * sizeof(char));
 
