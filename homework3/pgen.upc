@@ -105,15 +105,13 @@ int main(int argc, char *argv[]){
 		packSequence(&working_buffer[index], (unsigned char*) packedKmer, KMER_LENGTH);
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
-		kmerPlain_t temp;
-		temp.l_ext = left_ext;
-		temp.hashval = hashval;
-		temp.r_ext = right_ext;
+		privateKmerArray[ptr].l_ext = left_ext;
+		privateKmerArray[ptr].hashval = hashval;
+		privateKmerArray[ptr].r_ext = right_ext;
 
-		memcpy(temp.kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
-
-		upc_memput( (shared void *) (kmerArray+ptr),  &temp, sizeof(kmerPlain_t));
+		memcpy(privateKmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 	}
+	upc_memput( (shared void *) (kmerArray+startKMers),  &privateKmerArray[startKMers], sizeof(kmerPlain_t) * (endKMers-startKMers));
 /*
 	//Now for private kmer reads
 	for (ptr = 0; ptr < nKmers; ptr++) {
