@@ -213,7 +213,7 @@ int startNodes = 0;
 	traversalTime -= gettime();
 
 	//Turn the start node linked list into an array
-	kmer_t **startNodeArray = (kmer_t**)malloc(startNodes * sizeof(*kmer_t));
+	kmer_t **startNodeArray = (kmer_t**)malloc(startNodes * sizeof(void*));
 	int i = 0;
 	while (curStartNode != NULL) {
 		startNodeArray[i] = curStartNode->kmerPtr;
@@ -223,8 +223,8 @@ int startNodes = 0;
 	//printf("Starting graph traversal on thread %d\n", MYTHREAD);
 	//fflush(stdout);
 
-	int startKMers = startNodes * MYTHREAD / THREADS;
-	int endKMers = startNodes * (MYTHREAD+1) / THREADS;
+	startKMers = startNodes * MYTHREAD / THREADS;
+	endKMers = startNodes * (MYTHREAD+1) / THREADS;
 
 	char ** cur_contig2 = (char**)malloc(startNodes * sizeof(*char));
 
