@@ -81,7 +81,7 @@ int main(int argc, char *argv[]){
 };
 	 */
 
-	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
+	shared kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
 
 	upc_barrier;
 

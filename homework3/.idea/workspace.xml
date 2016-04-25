@@ -34,8 +34,8 @@
       <file leaf-file-name="pgen.upc" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pgen.upc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="185" column="0" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+            <state relative-caret-position="240">
+              <caret line="83" column="10" selection-start-line="83" selection-start-column="10" selection-end-line="83" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -88,9 +88,11 @@
       <file leaf-file-name="packingDNAseq.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/packingDNAseq.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
+            <state relative-caret-position="1020">
               <caret line="68" column="50" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="50" />
-              <folding />
+              <folding>
+                <element signature="e#53#70#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -479,7 +481,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1320">
           <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#53#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -515,7 +519,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1320">
           <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#53#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -561,7 +567,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#53#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -718,14 +726,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/packingDNAseq.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="68" column="50" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sort.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -746,16 +746,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kmer_hash.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="50" column="57" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="57" />
-          <folding>
-            <element signature="e#41#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/contig_generation.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -766,10 +756,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/kmer_hash.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="750">
+          <caret line="50" column="57" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="57" />
+          <folding>
+            <element signature="e#41#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/packingDNAseq.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="68" column="50" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="50" />
+          <folding>
+            <element signature="e#53#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pgen.upc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="185" column="0" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+        <state relative-caret-position="240">
+          <caret line="83" column="10" selection-start-line="83" selection-start-column="10" selection-end-line="83" selection-end-column="10" />
           <folding />
         </state>
       </provider>

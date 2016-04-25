@@ -11,4 +11,4 @@ Have a block(array) of kmers and start kmers that we will send to every thread.
 
 
 module load intel/14.0.1.106;  module load mvapich2-x/2.0.0; 
-git pull; rm *.err; rm *.out; make; sbatch job-upc; showq -u;
+git pull; rm *.err; rm *.out; make clean; make; sbatch job-upc; showq -u;
