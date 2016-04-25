@@ -110,8 +110,10 @@ int main(int argc, char *argv[]){
 		privateKmerArray[ptr].r_ext = right_ext;
 
 		memcpy(privateKmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
+		upc_memput( (shared void *) (kmerArray+ptr),  &privateKmerArray[ptr], sizeof(kmerPlain_t));
+		//upc_memput( (shared void *) (kmerArray+startKMers*sizeof(kmerPlain_t)), &privateKmerArray[ptr], sizeof(kmerPlain_t));
 	}
-	upc_memput( (shared void *) (kmerArray+startKMers*sizeof(kmerPlain_t)), &privateKmerArray[startKMers], sizeof(kmerPlain_t) * (endKMers-startKMers));
+	//upc_memput( (shared void *) (kmerArray+startKMers*sizeof(kmerPlain_t)), &privateKmerArray[startKMers], sizeof(kmerPlain_t) * (endKMers-startKMers));
 /*
 	//Now for private kmer reads
 	for (ptr = 0; ptr < nKmers; ptr++) {
