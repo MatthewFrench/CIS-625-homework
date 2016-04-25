@@ -65,28 +65,11 @@ int main(int argc, char *argv[]){
 	/* Extract the number of k-mers in the input file */
 	nKmers = getNumKmersInUFX(input_UFX_name);
 
-
-	printf("sizeof(kmerPlain_t) %d thread %d\n", sizeof(kmerPlain_t), MYTHREAD);
-	fflush(stdout);
-
-
-	printf("size vs %d thread %d\n", sizeof(char)*(2+KMER_PACKED_LENGTH) + sizeof(int64_t), MYTHREAD);
-	fflush(stdout);
-	/*
-	 * struct kmerPlain_t{
-    char kmer[KMER_PACKED_LENGTH];
-    char l_ext;
-    char r_ext;
-    int64_t hashval;
-};
-	 */
-
 	shared kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
 
-	upc_barrier;
+	kmerPlain_t *privateKmerArray = (kmerPlain_t*)malloc(nKmers * sizeof(kmerPlain_t));
 
-	printf("nKmers in thread %d: %d\n", nKmers, MYTHREAD);
-	fflush(stdout);
+	upc_barrier;
 
 	hash_table_t *hashtable;
 	memory_heap_t memory_heap;
@@ -99,16 +82,8 @@ int main(int argc, char *argv[]){
 	working_buffer = (unsigned char*) malloc(total_chars_to_read * sizeof(unsigned char));
 	inputFile = fopen(input_UFX_name, "r");
 
-	if (inputFile == NULL) {
-		printf("INPUT FILE IS NULL thread %d\n", MYTHREAD);
-		fflush(stdout);
-	}
-
 
 	cur_chars_read = fread(working_buffer, sizeof(unsigned char),total_chars_to_read , inputFile);
-
-	printf("Current chars read: %d vs total chars to read %d, thread %d\n", cur_chars_read, total_chars_to_read, MYTHREAD);
-	fflush(stdout);
 
 	fclose(inputFile);
 
@@ -117,8 +92,6 @@ int main(int argc, char *argv[]){
 
 	int start = 0;
 	int len = LINE_SIZE;
-
-	printf("1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 
 	upc_barrier;
 	inputTime += gettime();
@@ -136,48 +109,19 @@ int main(int argc, char *argv[]){
 	int startKMers = nKmers * MYTHREAD / THREADS;
 	int endKMers = nKmers * (MYTHREAD+1) / THREADS;
 
-
-
-	printf("Processing kmer text from %d to %d on thread %d\n", startKMers, endKMers, myThread);
-	fflush(stdout);
-
-	printf("2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-	fflush(stdout);
-
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
 		int index = ptr * LINE_SIZE;
 
 		left_ext = (char) working_buffer[index+KMER_LENGTH+1];
 		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
 
-		if (ptr == endKMers-1) {
-			printf("2.1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-			fflush(stdout);
-		}
-
 		char packedKmer[KMER_PACKED_LENGTH];
 
 		char sequence[KMER_LENGTH];
 		memcpy(sequence, working_buffer, KMER_LENGTH);
-
-		if (ptr == endKMers-1) {
-			printf("2.2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-			fflush(stdout);
-		}
-
 		packSequence((unsigned char*)&sequence, (unsigned char*) packedKmer, KMER_LENGTH);
 
-		if (ptr == endKMers-1) {
-			printf("2.3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-			fflush(stdout);
-		}
-
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
-
-		if (ptr == endKMers-1) {
-			printf("2.4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-			fflush(stdout);
-		}
 
 		kmerPlain_t temp;
 		temp.l_ext = left_ext;
@@ -187,97 +131,57 @@ int main(int argc, char *argv[]){
 		memcpy(temp.kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 
 		upc_memput( (shared void *) (kmerArray+ptr),  &temp, sizeof(kmerPlain_t));
-
-
-		if (ptr == endKMers-1) {
-			printf("2.5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-			fflush(stdout);
-		}
-/*
-		upc_memput(kmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
-*/
-		if (ptr == endKMers-1) {
-			printf("2.6Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-			fflush(stdout);
-		}
 	}
 
-	printf("3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-	fflush(stdout);
+	//Now for private kmer reads
+	for (ptr = 0; ptr < nKmers; ptr++) {
+		int index = ptr * LINE_SIZE;
 
-	//printf("3.5Reading from second buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer2 + start);
-	//fflush(stdout);
+		left_ext = (char) working_buffer[index+KMER_LENGTH+1];
+		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
 
-	printf("Done with text kmer code on thread %d\n", myThread);
-	fflush(stdout);
+		char packedKmer[KMER_PACKED_LENGTH];
 
-	printf("4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-	fflush(stdout);
+		char sequence[KMER_LENGTH];
+		memcpy(sequence, working_buffer, KMER_LENGTH);
+		packSequence((unsigned char*)&sequence, (unsigned char*) packedKmer, KMER_LENGTH);
+
+		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
+
+		privateKmerArray[ptr].l_ext = left_ext;
+		privateKmerArray[ptr].hashval = hashval;
+		privateKmerArray[ptr].r_ext = right_ext;
+
+		memcpy(privateKmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
+
+		//upc_memput( (shared void *) (kmerArray+ptr),  &temp, sizeof(kmerPlain_t));
+	}
 
 	upc_barrier;
-
-	printf("Looping through Kmers on thread %d\n", myThread);
-	fflush(stdout);
-
-
-	printf("5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
-	fflush(stdout);
 
 
 	//Add all the kmers to the hash table
 	for (ptr = 0; ptr < nKmers; ptr++) {
-		//printf("Kmer at index: %d on thread %d with left: %c right: %c\n", ptr, myThread, kmerArray[ptr].l_ext, kmerArray[ptr].r_ext);
-		//fflush(stdout);
-
-		//add_kmer2(hashtable, &memory_heap, kmerArray[i].kmer, kmerArray[i].hashval, kmerArray[i].l_ext, kmerArray[i].r_ext);
-		//printf("kmer %d / %d on thread %d\n", ptr, nKmers, myThread);
-		//fflush(stdout);
 		int64_t pos = memory_heap.posInHeap;
-		//printf("position in heap: %d on thread %d\n", pos, myThread);
-		//fflush(stdout);
-		//printf("1 on thread %d\n", myThread);
-		//fflush(stdout);
 
 		kmer_t *pointerOnHeap = &memory_heap.heap[pos];
 
-		kmerPlain_t temp;
-		upc_memget( &temp,  (shared void *) (kmerArray+ptr), sizeof(kmerPlain_t));
+		kmerPlain_t temp = privateKmerArray[ptr];
+		//upc_memget( &temp,  (shared void *) (kmerArray+ptr), sizeof(kmerPlain_t));
 
 		memcpy(pointerOnHeap->kmer, temp.kmer, KMER_PACKED_LENGTH * sizeof(char));
-		//printf("2 on thread %d\n", myThread);
-		//fflush(stdout);
-
-		//printf("left extension %c on thread %d\n", kmerArray[ptr].l_ext, myThread);
-		//fflush(stdout);
-
-		//printf("Trying to set %c on thread %d\n", pointerOnHeap->l_ext, myThread);
-		//fflush(stdout);
 
 		pointerOnHeap->l_ext = kmerArray[ptr].l_ext;
-		//printf("3 on thread %d\n", myThread);
-		//fflush(stdout);
 		pointerOnHeap->r_ext = kmerArray[ptr].r_ext;
-		//printf("4 on thread %d\n", myThread);
-		//fflush(stdout);
 
 		pointerOnHeap->next = hashtable->table[kmerArray[ptr].hashval].head;
-		//printf("5 on thread %d\n", myThread);
-		//fflush(stdout);
 		hashtable->table[kmerArray[ptr].hashval].head = pointerOnHeap;
-		//printf("6 on thread %d\n", myThread);
-		//fflush(stdout);
 
 		memory_heap.posInHeap++;
-		//printf("7, new position in head: %d on thread %d\n", memory_heap.posInHeap, myThread);
-		//fflush(stdout);
 
 		if (kmerArray[ptr].l_ext == 'F') {
-			//printf("Added start kMer at %d/%d on thread %d\n", ptr, nKmers, myThread);
-			//fflush(stdout);
 
 			addKmerToStartList(&memory_heap, &startKmersList);
-			//printf("8 on thread %d\n", myThread);
-			//fflush(stdout);
 		}
 	}
 
