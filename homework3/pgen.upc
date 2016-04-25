@@ -128,10 +128,10 @@ int main(int argc, char *argv[]){
 
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
 		int index = ptr * LINE_SIZE;
-/*
+
 		left_ext = (char) working_buffer[index+KMER_LENGTH+1];
 		right_ext = (char) working_buffer[index+KMER_LENGTH+2];
-*/
+
 		if (ptr == endKMers-1) {
 			printf("2.1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
