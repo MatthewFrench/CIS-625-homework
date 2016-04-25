@@ -237,7 +237,7 @@ int startNodes = 0;
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
 		cur_contig2[ptr] = (char*)malloc(MAXIMUM_CONTIG_SIZE * sizeof(char));
 
-		printf("2.1 on thread %d\n", MYTHREAD);
+		printf("2.1: ptr on thread %d\n", %d, MYTHREAD);
 		fflush(stdout);
 
 		/* Need to unpack the seed first */
