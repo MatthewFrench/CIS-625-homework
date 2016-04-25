@@ -186,7 +186,7 @@ int main(int argc, char *argv[]){
 
 		memcpy(temp.kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 
-		upc_memput( (shared void *) kmerArray[ptr],  &temp, sizeof(kmerPlain_t));
+		upc_memput( (shared void *) (kmerArray+ptr),  &temp, sizeof(kmerPlain_t));
 
 
 		if (ptr == endKMers-1) {
