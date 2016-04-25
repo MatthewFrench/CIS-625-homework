@@ -9,6 +9,8 @@
 #include "packingDNAseq.h"
 #include "kmer_hash.h"
 
+shared int64_t nKmers;
+
 int main(int argc, char *argv[]){
 
 	/** Declarations **/
@@ -18,7 +20,8 @@ int main(int argc, char *argv[]){
 
 	//Copied variables
 	char cur_contig[MAXIMUM_CONTIG_SIZE], unpackedKmer[KMER_LENGTH+1], left_ext, right_ext, *input_UFX_name;
-	int64_t posInContig, contigID = 0, totBases = 0, ptr = 0, nKmers, cur_chars_read, total_chars_to_read;
+	int64_t posInContig, contigID = 0, totBases = 0, ptr = 0, cur_chars_read, total_chars_to_read;
+	//shared int64_t nKmers = upc_all_alloc(1, sizeof(int));
 	unpackedKmer[KMER_LENGTH] = '\0';
 	kmer_t *cur_kmer_ptr;
 	start_kmer_t *startKmersList = NULL, *curStartNode;
@@ -42,7 +45,11 @@ int main(int argc, char *argv[]){
 	init_LookupTable();
 
 	/* Extract the number of k-mers in the input file */
-	nKmers = getNumKmersInUFX(input_UFX_name);
+	if (MYTHREAD == 0) {
+		nKmers = getNumKmersInUFX(input_UFX_name);
+	}
+
+	upc_barrier;
 
 	shared kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
 
