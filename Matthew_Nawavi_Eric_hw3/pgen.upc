@@ -116,7 +116,7 @@ if (MYTHREAD == 0) {
 		memcpy(privateKmerArray[ptr].kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
 		//upc_memput( (shared void *) (kmerArray+ptr),  &privateKmerArray[ptr], sizeof(kmerPlain_t));
 	}
-	upc_memput( (shared void *) (kmerArray+startKMers),  (void *)(privateKmerArray+startKMers), sizeof(kmerPlain_t)*(endKMers-startKMers));
+	upc_memput( (shared void *) (kmerArray+startKMers),  &privateKmerArray[startKMers], sizeof(kmerPlain_t)*(endKMers-startKMers));
 	//upc_memput( (shared void *) (kmerArray+startKMers*sizeof(kmerPlain_t)), &privateKmerArray[startKMers], sizeof(kmerPlain_t) * (endKMers-startKMers));
 /*
 	//Now for private kmer reads

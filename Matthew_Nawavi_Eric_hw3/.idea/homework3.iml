@@ -5,9 +5,9 @@
       <sourceFolder url="file://$MODULE_DIR$/kmer_hash.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/serial.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packingDNAseq.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pgen.upc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sort.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pgen.upc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contig_generation.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
