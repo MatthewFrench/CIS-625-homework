@@ -67,6 +67,8 @@ int main(int argc, char *argv[]){
 
 	shared [] kmerPlain_t *kmerArray = upc_all_alloc(nKmers, sizeof(kmerPlain_t));
 
+	upc_barrier;
+
 	printf("nKmers in thread %d: %d\n", nKmers, MYTHREAD);
 	fflush(stdout);
 
