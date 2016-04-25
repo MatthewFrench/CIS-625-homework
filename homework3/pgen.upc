@@ -136,12 +136,12 @@ int main(int argc, char *argv[]){
 			printf("2.1Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
-/*
+
 		char packedKmer[KMER_PACKED_LENGTH];
 
 		char sequence[KMER_LENGTH];
 		memcpy(sequence, working_buffer, KMER_LENGTH);
-*/
+
 		if (ptr == endKMers-1) {
 			printf("2.2Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
