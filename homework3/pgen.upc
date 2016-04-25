@@ -160,11 +160,11 @@ int main(int argc, char *argv[]){
 			printf("2.4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
-/*
+
 		kmerArray[ptr].l_ext = left_ext;
 		kmerArray[ptr].r_ext = right_ext;
 		kmerArray[ptr].hashval = hashval;
-*/
+
 		if (ptr == endKMers-1) {
 			printf("2.5Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
