@@ -184,6 +184,8 @@ int main(int argc, char *argv[]){
 		temp.hashval = hashval;
 		temp.r_ext = right_ext;
 
+		upc_memput( kmerArray[ptr],  &temp, sizeof(kmerPlain_t));
+
 		//kmerArray[ptr] = temp;
 
 		if (ptr == endKMers-1) {
