@@ -226,7 +226,7 @@ int startNodes = 0;
 	startKMers = startNodes * MYTHREAD / THREADS;
 	endKMers = startNodes * (MYTHREAD+1) / THREADS;
 
-	char ** cur_contig2 = (char**)malloc(startNodes * sizeof(*char));
+	char ** cur_contig2 = (char**)malloc(startNodes * sizeof(void*));
 
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
 		cur_contig2[ptr] = (char*)malloc(MAXIMUM_CONTIG_SIZE * sizeof(char));
