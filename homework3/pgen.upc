@@ -94,8 +94,8 @@ int main(int argc, char *argv[]){
 
 	fclose(inputFile);
 
-	unsigned char *working_buffer2 = (unsigned char*) malloc(total_chars_to_read * sizeof(unsigned char));
-	memcpy(working_buffer2, working_buffer, total_chars_to_read);
+	//unsigned char *working_buffer2 = (unsigned char*) malloc(total_chars_to_read * sizeof(unsigned char));
+	//memcpy(working_buffer2, working_buffer, total_chars_to_read);
 
 	int start = 0;
 	int len = LINE_SIZE;
@@ -181,8 +181,8 @@ int main(int argc, char *argv[]){
 	printf("3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 	fflush(stdout);
 
-	printf("3.5Reading from second buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer2 + start);
-	fflush(stdout);
+	//printf("3.5Reading from second buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer2 + start);
+	//fflush(stdout);
 
 	printf("Done with text kmer code on thread %d\n", myThread);
 	fflush(stdout);
