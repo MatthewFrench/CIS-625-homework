@@ -240,7 +240,10 @@ int main(int argc, char *argv[]){
 
 		kmer_t *pointerOnHeap = &memory_heap.heap[pos];
 
-		memcpy(pointerOnHeap->kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
+		kmerPlain_t temp;
+		upc_memget( &temp,  (shared void *) (kmerArray+ptr), sizeof(kmerPlain_t));
+
+		memcpy(pointerOnHeap->kmer, temp.kmer, KMER_PACKED_LENGTH * sizeof(char));
 		//printf("2 on thread %d\n", myThread);
 		//fflush(stdout);
 
