@@ -9,27 +9,6 @@
 #include "packingDNAseq.h"
 #include "kmer_hash.h"
 
-int add_kmer2(hash_table_t *hashtable, memory_heap_t *memory_heap, shared [] char * packedKmer, int64_t hashval, char left_ext, char right_ext)
-{
-	int64_t pos = memory_heap->posInHeap;
-
-	/* Add the contents to the appropriate kmer struct in the heap */
-	upc_memget((memory_heap->heap[pos]).kmer, packedKmer, KMER_PACKED_LENGTH * sizeof(char));
-	(memory_heap->heap[pos]).l_ext = left_ext;
-	(memory_heap->heap[pos]).r_ext = right_ext;
-
-	/* Fix the next pointer to point to the appropriate kmer struct */
-	(memory_heap->heap[pos]).next = hashtable->table[hashval].head;
-	/* Fix the head pointer of the appropriate bucket to point to the current kmer */
-	hashtable->table[hashval].head = &(memory_heap->heap[pos]);
-
-	/* Increase the heap pointer */
-	memory_heap->posInHeap++;
-
-	return 0;
-}
-
-
 int main(int argc, char *argv[]){
 
 	/** Declarations **/
