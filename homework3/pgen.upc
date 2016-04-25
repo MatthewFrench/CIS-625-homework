@@ -230,51 +230,51 @@ int main(int argc, char *argv[]){
 		//fflush(stdout);
 
 		//add_kmer2(hashtable, &memory_heap, kmerArray[i].kmer, kmerArray[i].hashval, kmerArray[i].l_ext, kmerArray[i].r_ext);
-		printf("kmer %d / %d on thread %d\n", ptr, nKmers, myThread);
-		fflush(stdout);
+		//printf("kmer %d / %d on thread %d\n", ptr, nKmers, myThread);
+		//fflush(stdout);
 		int64_t pos = memory_heap.posInHeap;
-		printf("position in heap: %d on thread %d\n", pos, myThread);
-		fflush(stdout);
-		printf("1 on thread %d\n", myThread);
-		fflush(stdout);
+		//printf("position in heap: %d on thread %d\n", pos, myThread);
+		//fflush(stdout);
+		//printf("1 on thread %d\n", myThread);
+		//fflush(stdout);
 
 		kmer_t *pointerOnHeap = &memory_heap.heap[pos];
 
-		upc_memget(pointerOnHeap->kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
-		printf("2 on thread %d\n", myThread);
-		fflush(stdout);
+		memcpy(pointerOnHeap->kmer, kmerArray[ptr].kmer, KMER_PACKED_LENGTH * sizeof(char));
+		//printf("2 on thread %d\n", myThread);
+		//fflush(stdout);
 
-		printf("left extension %c on thread %d\n", kmerArray[ptr].l_ext, myThread);
-		fflush(stdout);
+		//printf("left extension %c on thread %d\n", kmerArray[ptr].l_ext, myThread);
+		//fflush(stdout);
 
-		printf("Trying to set %c on thread %d\n", pointerOnHeap->l_ext, myThread);
-		fflush(stdout);
+		//printf("Trying to set %c on thread %d\n", pointerOnHeap->l_ext, myThread);
+		//fflush(stdout);
 
 		pointerOnHeap->l_ext = kmerArray[ptr].l_ext;
-		printf("3 on thread %d\n", myThread);
-		fflush(stdout);
+		//printf("3 on thread %d\n", myThread);
+		//fflush(stdout);
 		pointerOnHeap->r_ext = kmerArray[ptr].r_ext;
-		printf("4 on thread %d\n", myThread);
-		fflush(stdout);
+		//printf("4 on thread %d\n", myThread);
+		//fflush(stdout);
 
 		pointerOnHeap->next = hashtable->table[kmerArray[ptr].hashval].head;
-		printf("5 on thread %d\n", myThread);
-		fflush(stdout);
+		//printf("5 on thread %d\n", myThread);
+		//fflush(stdout);
 		hashtable->table[kmerArray[ptr].hashval].head = pointerOnHeap;
-		printf("6 on thread %d\n", myThread);
-		fflush(stdout);
+		//printf("6 on thread %d\n", myThread);
+		//fflush(stdout);
 
 		memory_heap.posInHeap++;
-		printf("7, new position in head: %d on thread %d\n", memory_heap.posInHeap, myThread);
-		fflush(stdout);
+		//printf("7, new position in head: %d on thread %d\n", memory_heap.posInHeap, myThread);
+		//fflush(stdout);
 
 		if (kmerArray[ptr].l_ext == 'F') {
-			printf("Added start kMer at %d/%d on thread %d\n", ptr, nKmers, myThread);
-			fflush(stdout);
+			//printf("Added start kMer at %d/%d on thread %d\n", ptr, nKmers, myThread);
+			//fflush(stdout);
 
 			addKmerToStartList(&memory_heap, &startKmersList);
-			printf("8 on thread %d\n", myThread);
-			fflush(stdout);
+			//printf("8 on thread %d\n", myThread);
+			//fflush(stdout);
 		}
 	}
 
