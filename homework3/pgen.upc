@@ -153,9 +153,9 @@ int main(int argc, char *argv[]){
 			printf("2.3Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
 		}
-/*
+
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
-*/
+
 		if (ptr == endKMers-1) {
 			printf("2.4Reading from buffer on thread %d:  %.*s\n", MYTHREAD, len, working_buffer + start);
 			fflush(stdout);
