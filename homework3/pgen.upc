@@ -186,8 +186,8 @@ int main(int argc, char *argv[]){
 
 	}
 */
-	printf("Done with construction on thread %d\n", MYTHREAD);
-	fflush(stdout);
+	//printf("Done with construction on thread %d\n", MYTHREAD);
+	//fflush(stdout);
 
 
 
@@ -202,8 +202,8 @@ int main(int argc, char *argv[]){
 	traversalTime -= gettime();
 
 
-	printf("Starting graph traversal on thread %d\n", MYTHREAD);
-	fflush(stdout);
+	//printf("Starting graph traversal on thread %d\n", MYTHREAD);
+	//fflush(stdout);
 
 	if (MYTHREAD == 0) {
 
@@ -247,8 +247,8 @@ int main(int argc, char *argv[]){
 
 	}
 
-	printf("Done with graph traversal on thread %d\n", MYTHREAD);
-	fflush(stdout);
+	//printf("Done with graph traversal on thread %d\n", MYTHREAD);
+	//fflush(stdout);
 
 
 
@@ -259,8 +259,8 @@ int main(int argc, char *argv[]){
 	upc_barrier;
 	traversalTime += gettime();
 
-	printf("Job finished on thread %d\n", MYTHREAD);
-	fflush(stdout);
+	//printf("Job finished on thread %d\n", MYTHREAD);
+	//fflush(stdout);
 
 	/** Print timing and output info **/
 	/***** DO NOT CHANGE THIS PART ****/
