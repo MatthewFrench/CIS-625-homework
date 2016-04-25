@@ -237,9 +237,9 @@ int startNodes = 0;
 
 	curStartNode = startKmersList;
 
-	i = 0;
+	ptr = 0;
 	while (curStartNode != NULL) {
-		if (i >= startKMers || i < endKMers) {
+		if (ptr >= startKMers || ptr < endKMers) {
 			printf("2.1 on thread %d\n", MYTHREAD);
 			fflush(stdout);
 
@@ -294,7 +294,7 @@ int startNodes = 0;
 		}
 
 		curStartNode = curStartNode->next;
-		i++;
+		ptr++;
 	}
 
 	printf("3 on thread %d\n", MYTHREAD);
