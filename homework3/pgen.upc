@@ -178,12 +178,12 @@ int main(int argc, char *argv[]){
 		packSequence(&working_buffer[index], (unsigned char*) packedKmer, KMER_LENGTH);
 		int64_t hashval = hashkmer(hashtable->size, (char*) packedKmer);
 
-		if (hashval != privateKmerArray[ptr].hashval) {
-			printf("ERROR WRONG HASH\n");
-			fflush(stdout);
-		}
+		//if (hashval != privateKmerArray[ptr].hashval) {
+		//	printf("ERROR WRONG HASH\n");
+		//	fflush(stdout);
+		//}
 
-		add_kmerPrepared(hashtable, &memory_heap, privateKmerArray[ptr].kmer, privateKmerArray[ptr].hashval, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
+		add_kmerPrepared(hashtable, &memory_heap, privateKmerArray[ptr].kmer, hashval, privateKmerArray[ptr].l_ext, privateKmerArray[ptr].r_ext);
 
 		if (kmerArray[ptr].l_ext == 'F') {
 
