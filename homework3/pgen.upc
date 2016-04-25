@@ -220,13 +220,19 @@ int startNodes = 0;
 		curStartNode = curStartNode->next;
 	}
 
-	//printf("Starting graph traversal on thread %d\n", MYTHREAD);
-	//fflush(stdout);
+	printf("Starting graph traversal on thread %d\n", MYTHREAD);
+	fflush(stdout);
 
 	startKMers = startNodes * MYTHREAD / THREADS;
 	endKMers = startNodes * (MYTHREAD+1) / THREADS;
 
+	printf("1 on thread %d\n", MYTHREAD);
+	fflush(stdout);
+
 	char ** cur_contig2 = (char**)malloc(startNodes * sizeof(void*));
+
+	printf("2 on thread %d\n", MYTHREAD);
+	fflush(stdout);
 
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
 		cur_contig2[ptr] = (char*)malloc(MAXIMUM_CONTIG_SIZE * sizeof(char));
@@ -254,19 +260,30 @@ int startNodes = 0;
 		totBases += strlen(cur_contig2[ptr]);
 	}
 
+	printf("3 on thread %d\n", MYTHREAD);
+	fflush(stdout);
+
 	upc_lock_t *l;
+	printf("4 on thread %d\n", MYTHREAD);
+	fflush(stdout);
 	l = upc_all_lock_alloc();
-
+	printf("5 on thread %d\n", MYTHREAD);
+	fflush(stdout);
 	upc_lock(l);
-
+	printf("6 on thread %d\n", MYTHREAD);
+	fflush(stdout);
 	serialOutputFile = fopen("pgen.out", "a");
 
 	for (ptr = startKMers; ptr < endKMers; ptr++) {
 		fprintf(serialOutputFile, "%s\n", cur_contig2[ptr]);
 	}
+	printf("7 on thread %d\n", MYTHREAD);
+	fflush(stdout);
 
 	fclose(serialOutputFile);
 	upc_unlock(l);
+	printf("8 on thread %d\n", MYTHREAD);
+	fflush(stdout);
 
 	/*
 
