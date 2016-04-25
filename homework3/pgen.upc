@@ -299,9 +299,9 @@ int main(int argc, char *argv[]){
 		//if (myThread == 0) {
 
 			if (left1 != left2 || right1 != right2) {
-				//printf("kmerIndex: %d, Thread: %d, %c%c != %c%c\n", kmerIndex, myThread, left1, right1, left2, right2);
-				//printf("Reading from buffer on thread %d at kmer: %d:  %.*s\n", MYTHREAD, kmerIndex, LINE_SIZE, working_buffer + ptr);
-				//fflush(stdout);
+				printf("kmerIndex: %d, Thread: %d, %c%c != %c%c\n", kmerIndex, myThread, left1, right1, left2, right2);
+				printf("Reading from buffer on thread %d at kmer: %d:  %.*s\n", MYTHREAD, kmerIndex, LINE_SIZE, working_buffer + ptr);
+				fflush(stdout);
 			}
 
 			//printf("kmerIndex: %d, kmer Extension: %c%c vs %c%c on thread %d\n", kmerIndex, kmerArray[ptr].l_ext,
